@@ -26466,9 +26466,17 @@
 	
 	var _Main2 = _interopRequireDefault(_Main);
 	
-	var _Homepage = __webpack_require__(491);
+	var _Homepage = __webpack_require__(493);
 	
 	var _Homepage2 = _interopRequireDefault(_Homepage);
+	
+	var _Login = __webpack_require__(497);
+	
+	var _Login2 = _interopRequireDefault(_Login);
+	
+	var _Signup = __webpack_require__(498);
+	
+	var _Signup2 = _interopRequireDefault(_Signup);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -26476,6 +26484,8 @@
 	  _reactRouter.Route,
 	  { path: '/', component: _Main2.default },
 	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Homepage2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _Signup2.default }),
 	  _react2.default.createElement(_reactRouter.Redirect, { from: '*', to: '/' })
 	);
 	
@@ -26501,7 +26511,7 @@
 	
 	var _HomeNav2 = _interopRequireDefault(_HomeNav);
 	
-	var _MyFooter = __webpack_require__(490);
+	var _MyFooter = __webpack_require__(492);
 	
 	var _MyFooter2 = _interopRequireDefault(_MyFooter);
 	
@@ -26560,7 +26570,7 @@
 	
 	var _reactBootstrap = __webpack_require__(240);
 	
-	var _reactFontawesome = __webpack_require__(495);
+	var _reactFontawesome = __webpack_require__(490);
 	
 	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 	
@@ -45602,6 +45612,148 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _screenReaderStyles = __webpack_require__(491);
+	
+	var _screenReaderStyles2 = _interopRequireDefault(_screenReaderStyles);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
+	/**
+	 * A React component for the font-awesome icon library.
+	 *
+	 *
+	 * @param {String} [ariaLabel] An extra accessibility label to put on the icon
+	 * @param {Boolean} [border=false] Whether or not to show a border radius
+	 * @param {String} [className] An extra set of CSS classes to add to the component
+	 * @param {Object} [cssModule] Option to pass FontAwesome CSS as a module
+	 * @param {Boolean} [fixedWidth=false] Make buttons fixed width
+	 * @param {String} [flip=false] Flip the icon's orientation.
+	 * @param {Boolean} [inverse=false]Inverse the icon's color
+	 * @param {String} name Name of the icon to use
+	 * @param {Boolean} [pulse=false] Rotate icon with 8 steps (rather than smoothly)
+	 * @param {Number} [rotate] The degress to rotate the icon by
+	 * @param {String} [size] The icon scaling size
+	 * @param {Boolean} [spin=false] Spin the icon
+	 * @param {String} [stack] Stack an icon on top of another
+	 * @param {String} [tag=span] The HTML tag to use as a string (eg 'i' or 'em')
+	 * @module FontAwesome
+	 * @type {ReactClass}
+	 */
+	exports.default = _react2.default.createClass({
+	
+	  displayName: 'FontAwesome',
+	
+	  propTypes: {
+	    ariaLabel: _react2.default.PropTypes.string,
+	    border: _react2.default.PropTypes.bool,
+	    className: _react2.default.PropTypes.string,
+	    cssModule: _react2.default.PropTypes.object,
+	    fixedWidth: _react2.default.PropTypes.bool,
+	    flip: _react2.default.PropTypes.oneOf(['horizontal', 'vertical']),
+	    inverse: _react2.default.PropTypes.bool,
+	    name: _react2.default.PropTypes.string.isRequired,
+	    pulse: _react2.default.PropTypes.bool,
+	    rotate: _react2.default.PropTypes.oneOf([90, 180, 270]),
+	    size: _react2.default.PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x']),
+	    spin: _react2.default.PropTypes.bool,
+	    stack: _react2.default.PropTypes.oneOf(['1x', '2x']),
+	    tag: _react2.default.PropTypes.string
+	  },
+	
+	  render: function render() {
+	    var _props = this.props;
+	    var border = _props.border;
+	    var cssModule = _props.cssModule;
+	    var className = _props.className;
+	    var fixedWidth = _props.fixedWidth;
+	    var flip = _props.flip;
+	    var inverse = _props.inverse;
+	    var name = _props.name;
+	    var pulse = _props.pulse;
+	    var rotate = _props.rotate;
+	    var size = _props.size;
+	    var spin = _props.spin;
+	    var stack = _props.stack;
+	    var _props$tag = _props.tag;
+	    var tag = _props$tag === undefined ? 'span' : _props$tag;
+	    var ariaLabel = _props.ariaLabel;
+	
+	    var props = _objectWithoutProperties(_props, ['border', 'cssModule', 'className', 'fixedWidth', 'flip', 'inverse', 'name', 'pulse', 'rotate', 'size', 'spin', 'stack', 'tag', 'ariaLabel']);
+	
+	    var classNames = [];
+	
+	    if (cssModule) {
+	      classNames.push(cssModule['fa']);
+	      classNames.push(cssModule['fa-' + name]);
+	      size && classNames.push(cssModule['fa-' + size]);
+	      spin && classNames.push(cssModule['fa-spin']);
+	      pulse && classNames.push(cssModule['fa-pulse']);
+	      border && classNames.push(cssModule['fa-border']);
+	      fixedWidth && classNames.push(cssModule['fa-fw']);
+	      inverse && classNames.push(cssModule['fa-inverse']);
+	      flip && classNames.push(cssModule['fa-flip-' + flip]);
+	      rotate && classNames.push(cssModule['fa-rotate-' + rotate]);
+	      stack && classNames.push(cssModule['fa-stack-' + stack]);
+	    } else {
+	      classNames.push('fa');
+	      classNames.push('fa-' + name);
+	      size && classNames.push('fa-' + size);
+	      spin && classNames.push('fa-spin');
+	      pulse && classNames.push('fa-pulse');
+	      border && classNames.push('fa-border');
+	      fixedWidth && classNames.push('fa-fw');
+	      inverse && classNames.push('fa-inverse');
+	      flip && classNames.push('fa-flip-' + flip);
+	      rotate && classNames.push('fa-rotate-' + rotate);
+	      stack && classNames.push('fa-stack-' + stack);
+	    }
+	
+	    // Add any custom class names at the end.
+	    className && classNames.push(className);
+	    return _react2.default.createElement(tag, _extends({}, props, { 'aria-hidden': true, className: classNames.join(' ') }), ariaLabel ? _react2.default.createElement('span', { style: _screenReaderStyles2.default }, ariaLabel) : null);
+	  }
+	});
+	module.exports = exports['default'];
+
+/***/ },
+/* 491 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  position: 'absolute',
+	  width: '1px',
+	  height: '1px',
+	  padding: '0px',
+	  margin: '-1px',
+	  overflow: 'hidden',
+	  clip: 'rect(0px, 0px, 0px, 0px)',
+	  border: '0px'
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 492 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
@@ -45610,7 +45762,7 @@
 	
 	var _reactRouter = __webpack_require__(179);
 	
-	var _reactFontawesome = __webpack_require__(495);
+	var _reactFontawesome = __webpack_require__(490);
 	
 	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 	
@@ -45678,6 +45830,11 @@
 	                { href: 'http://www.twitter.com/', target: 'blank' },
 	                _react2.default.createElement(_reactFontawesome2.default, { name: 'twitter' })
 	              )
+	            ),
+	            _react2.default.createElement(
+	              'span',
+	              { className: 'pull-left' },
+	              '\xA92017 eChange'
 	            )
 	          )
 	        )
@@ -45691,7 +45848,7 @@
 	exports.default = MyFooter;
 
 /***/ },
-/* 491 */
+/* 493 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -45708,19 +45865,21 @@
 	
 	var _reactBootstrap = __webpack_require__(240);
 	
-	var _reactFontawesome = __webpack_require__(495);
+	var _reactFontawesome = __webpack_require__(490);
 	
 	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 	
-	var _HomePriceTicker = __webpack_require__(492);
+	var _reactRouterBootstrap = __webpack_require__(237);
+	
+	var _HomePriceTicker = __webpack_require__(494);
 	
 	var _HomePriceTicker2 = _interopRequireDefault(_HomePriceTicker);
 	
-	var _Features = __webpack_require__(493);
+	var _Features = __webpack_require__(495);
 	
 	var _Features2 = _interopRequireDefault(_Features);
 	
-	var _LBCAdvert = __webpack_require__(494);
+	var _LBCAdvert = __webpack_require__(496);
 	
 	var _LBCAdvert2 = _interopRequireDefault(_LBCAdvert);
 	
@@ -45775,10 +45934,14 @@
 	              'Buy and Sell Bitcoin at the best Prices on the Market'
 	            ),
 	            _react2.default.createElement(
-	              _reactBootstrap.Button,
-	              { bsStyle: 'primary', bsSize: 'large' },
-	              _react2.default.createElement(_reactFontawesome2.default, { name: 'users' }),
-	              '  SIGN UP'
+	              _reactRouterBootstrap.LinkContainer,
+	              { to: '/signup' },
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsStyle: 'primary', bsSize: 'large' },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'users' }),
+	                '  SIGN UP'
+	              )
 	            )
 	          )
 	        ),
@@ -45807,7 +45970,7 @@
 	exports.default = Homepage;
 
 /***/ },
-/* 492 */
+/* 494 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46013,7 +46176,7 @@
 	exports.default = HomePriceTicker;
 
 /***/ },
-/* 493 */
+/* 495 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46030,7 +46193,7 @@
 	
 	var _reactBootstrap = __webpack_require__(240);
 	
-	var _reactFontawesome = __webpack_require__(495);
+	var _reactFontawesome = __webpack_require__(490);
 	
 	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 	
@@ -46128,7 +46291,7 @@
 	exports.default = Features;
 
 /***/ },
-/* 494 */
+/* 496 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46186,8 +46349,9 @@
 	              _react2.default.createElement(
 	                'a',
 	                { href: 'https://localbitcoins.com/ad/391850', target: '_blank' },
-	                'LocalBitcoins!'
-	              )
+	                'LocalBitcoins'
+	              ),
+	              '!'
 	            ),
 	            _react2.default.createElement('iframe', { allowTransparency: 'true', frameBorder: '0', marginHeight: '0', marginWidth: '0', scrolling: 'no', width: '230', height: '50', src: 'https://localbitcoins.com/ad-embed/391850/half-banner' })
 	          )
@@ -46202,7 +46366,7 @@
 	exports.default = LBCAdvert;
 
 /***/ },
-/* 495 */
+/* 497 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46211,137 +46375,215 @@
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _screenReaderStyles = __webpack_require__(496);
+	var _reactBootstrap = __webpack_require__(240);
 	
-	var _screenReaderStyles2 = _interopRequireDefault(_screenReaderStyles);
+	var _reactFontawesome = __webpack_require__(490);
+	
+	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	/**
-	 * A React component for the font-awesome icon library.
-	 *
-	 *
-	 * @param {String} [ariaLabel] An extra accessibility label to put on the icon
-	 * @param {Boolean} [border=false] Whether or not to show a border radius
-	 * @param {String} [className] An extra set of CSS classes to add to the component
-	 * @param {Object} [cssModule] Option to pass FontAwesome CSS as a module
-	 * @param {Boolean} [fixedWidth=false] Make buttons fixed width
-	 * @param {String} [flip=false] Flip the icon's orientation.
-	 * @param {Boolean} [inverse=false]Inverse the icon's color
-	 * @param {String} name Name of the icon to use
-	 * @param {Boolean} [pulse=false] Rotate icon with 8 steps (rather than smoothly)
-	 * @param {Number} [rotate] The degress to rotate the icon by
-	 * @param {String} [size] The icon scaling size
-	 * @param {Boolean} [spin=false] Spin the icon
-	 * @param {String} [stack] Stack an icon on top of another
-	 * @param {String} [tag=span] The HTML tag to use as a string (eg 'i' or 'em')
-	 * @module FontAwesome
-	 * @type {ReactClass}
-	 */
-	exports.default = _react2.default.createClass({
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	  displayName: 'FontAwesome',
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	  propTypes: {
-	    ariaLabel: _react2.default.PropTypes.string,
-	    border: _react2.default.PropTypes.bool,
-	    className: _react2.default.PropTypes.string,
-	    cssModule: _react2.default.PropTypes.object,
-	    fixedWidth: _react2.default.PropTypes.bool,
-	    flip: _react2.default.PropTypes.oneOf(['horizontal', 'vertical']),
-	    inverse: _react2.default.PropTypes.bool,
-	    name: _react2.default.PropTypes.string.isRequired,
-	    pulse: _react2.default.PropTypes.bool,
-	    rotate: _react2.default.PropTypes.oneOf([90, 180, 270]),
-	    size: _react2.default.PropTypes.oneOf(['lg', '2x', '3x', '4x', '5x']),
-	    spin: _react2.default.PropTypes.bool,
-	    stack: _react2.default.PropTypes.oneOf(['1x', '2x']),
-	    tag: _react2.default.PropTypes.string
-	  },
+	var Login = function (_Component) {
+	  _inherits(Login, _Component);
 	
-	  render: function render() {
-	    var _props = this.props;
-	    var border = _props.border;
-	    var cssModule = _props.cssModule;
-	    var className = _props.className;
-	    var fixedWidth = _props.fixedWidth;
-	    var flip = _props.flip;
-	    var inverse = _props.inverse;
-	    var name = _props.name;
-	    var pulse = _props.pulse;
-	    var rotate = _props.rotate;
-	    var size = _props.size;
-	    var spin = _props.spin;
-	    var stack = _props.stack;
-	    var _props$tag = _props.tag;
-	    var tag = _props$tag === undefined ? 'span' : _props$tag;
-	    var ariaLabel = _props.ariaLabel;
+	  function Login() {
+	    _classCallCheck(this, Login);
 	
-	    var props = _objectWithoutProperties(_props, ['border', 'cssModule', 'className', 'fixedWidth', 'flip', 'inverse', 'name', 'pulse', 'rotate', 'size', 'spin', 'stack', 'tag', 'ariaLabel']);
-	
-	    var classNames = [];
-	
-	    if (cssModule) {
-	      classNames.push(cssModule['fa']);
-	      classNames.push(cssModule['fa-' + name]);
-	      size && classNames.push(cssModule['fa-' + size]);
-	      spin && classNames.push(cssModule['fa-spin']);
-	      pulse && classNames.push(cssModule['fa-pulse']);
-	      border && classNames.push(cssModule['fa-border']);
-	      fixedWidth && classNames.push(cssModule['fa-fw']);
-	      inverse && classNames.push(cssModule['fa-inverse']);
-	      flip && classNames.push(cssModule['fa-flip-' + flip]);
-	      rotate && classNames.push(cssModule['fa-rotate-' + rotate]);
-	      stack && classNames.push(cssModule['fa-stack-' + stack]);
-	    } else {
-	      classNames.push('fa');
-	      classNames.push('fa-' + name);
-	      size && classNames.push('fa-' + size);
-	      spin && classNames.push('fa-spin');
-	      pulse && classNames.push('fa-pulse');
-	      border && classNames.push('fa-border');
-	      fixedWidth && classNames.push('fa-fw');
-	      inverse && classNames.push('fa-inverse');
-	      flip && classNames.push('fa-flip-' + flip);
-	      rotate && classNames.push('fa-rotate-' + rotate);
-	      stack && classNames.push('fa-stack-' + stack);
-	    }
-	
-	    // Add any custom class names at the end.
-	    className && classNames.push(className);
-	    return _react2.default.createElement(tag, _extends({}, props, { 'aria-hidden': true, className: classNames.join(' ') }), ariaLabel ? _react2.default.createElement('span', { style: _screenReaderStyles2.default }, ariaLabel) : null);
+	    return _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).apply(this, arguments));
 	  }
-	});
-	module.exports = exports['default'];
+	
+	  _createClass(Login, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'isCenter' },
+	        _react2.default.createElement(
+	          _reactBootstrap.Panel,
+	          null,
+	          _react2.default.createElement(
+	            _reactBootstrap.Row,
+	            null,
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              'LOGIN'
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              _reactBootstrap.Col,
+	              { md: 4, mdOffset: 4, sm: 6, smOffset: 3 },
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-facebook', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'facebook' }),
+	                ' Login with Facebook '
+	              ),
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-google', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'google' }),
+	                ' Login with Google '
+	              ),
+	              _react2.default.createElement('hr', null),
+	              _react2.default.createElement(
+	                'h4',
+	                null,
+	                'OR...'
+	              ),
+	              _react2.default.createElement('hr', null),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                'Signup with a Social Account'
+	              ),
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-facebook', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'facebook' }),
+	                ' Signup with Facebook '
+	              ),
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-google', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'google' }),
+	                ' Signup with Google '
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(_reactFontawesome2.default, { name: 'bitcoin', size: '3x' })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Login;
+	}(_react.Component);
+	
+	exports.default = Login;
 
 /***/ },
-/* 496 */
-/***/ function(module, exports) {
+/* 498 */
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = {
-	  position: 'absolute',
-	  width: '1px',
-	  height: '1px',
-	  padding: '0px',
-	  margin: '-1px',
-	  overflow: 'hidden',
-	  clip: 'rect(0px, 0px, 0px, 0px)',
-	  border: '0px'
-	};
-	module.exports = exports['default'];
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactBootstrap = __webpack_require__(240);
+	
+	var _reactFontawesome = __webpack_require__(490);
+	
+	var _reactFontawesome2 = _interopRequireDefault(_reactFontawesome);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Signup = function (_Component) {
+	  _inherits(Signup, _Component);
+	
+	  function Signup() {
+	    _classCallCheck(this, Signup);
+	
+	    return _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).apply(this, arguments));
+	  }
+	
+	  _createClass(Signup, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'isCenter' },
+	        _react2.default.createElement(
+	          _reactBootstrap.Panel,
+	          null,
+	          _react2.default.createElement(
+	            _reactBootstrap.Row,
+	            null,
+	            _react2.default.createElement(
+	              'h4',
+	              null,
+	              'SIGNUP'
+	            ),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              _reactBootstrap.Col,
+	              { md: 4, mdOffset: 4, sm: 6, smOffset: 3 },
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-facebook', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'facebook' }),
+	                ' Signup with Facebook '
+	              ),
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-google', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'google' }),
+	                ' Signup with Google '
+	              ),
+	              _react2.default.createElement('hr', null),
+	              _react2.default.createElement(
+	                'h4',
+	                null,
+	                'OR...'
+	              ),
+	              _react2.default.createElement('hr', null),
+	              _react2.default.createElement(
+	                'p',
+	                null,
+	                'Login with a Social Account'
+	              ),
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-facebook', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'facebook' }),
+	                ' Login with Facebook '
+	              ),
+	              _react2.default.createElement(
+	                _reactBootstrap.Button,
+	                { bsSize: 'large', className: 'btn-social btn-google', block: true },
+	                _react2.default.createElement(_reactFontawesome2.default, { name: 'google' }),
+	                ' Login with Google '
+	              )
+	            )
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(_reactFontawesome2.default, { name: 'bitcoin', size: '3x' })
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Signup;
+	}(_react.Component);
+	
+	exports.default = Signup;
 
 /***/ }
 /******/ ]);

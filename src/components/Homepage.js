@@ -6,6 +6,7 @@ import {
   Jumbotron
 } from 'react-bootstrap';
 import FontAwesome from 'react-fontawesome';
+import {LinkContainer} from 'react-router-bootstrap';
 
 import HomePriceTicker from './HomePriceTicker';
 import Features from './Features';
@@ -22,7 +23,7 @@ class Homepage extends Component {
             <p><span className='greenC'>Nigeria</span>'s Easiest and Most Reliable Bitcoin and Digital Asset Exchange</p>
             <p>Buy and Sell Bitcoin at the best Prices on the Market</p>
             
-            <Button bsStyle='primary' bsSize='large'><FontAwesome name="users"/>  SIGN UP</Button>
+            <LinkContainer to='/signup' ><Button bsStyle='primary' bsSize='large'><FontAwesome name="users"/>  SIGN UP</Button></LinkContainer>
           
           </Jumbotron>
         </div>

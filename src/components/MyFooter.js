@@ -13,6 +13,9 @@ class MyFooter extends Component {
             <span className='pull-right'>
               Follow us on <a href="http://www.facebook.com" target='blank' > <FontAwesome name='facebook-official' /> </a> <a href="http://instagr.am/ebuka_hills" target='blank'><FontAwesome name='instagram' /></a> <a href="http://www.twitter.com/" target='blank'><FontAwesome name='twitter' /></a>
             </span>
+            <span className='pull-left'>
+              &copy;2017 eChange
+            </span>
           </div>
         </footer>
       </div>

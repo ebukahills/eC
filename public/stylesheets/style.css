@@ -1,10 +1,12 @@
+@import url('bootstrap-social.css');
+
 html {
   position: relative;
   min-height: 100%;
 }
 body {
   font-family: 'Roboto Mono', monospace;
-  background-color: lightcyan;
+  background-color: linen;
 }
 
 div {
@@ -29,6 +31,7 @@ a {
     height: 20px;
     background-color: #f5f5f5;
     text-align: center;
+    position: fixed;
 }
 
 .greenC {
