@@ -6,9 +6,9 @@ import MyFooter from './MyFooter';
 class Main extends Component {
   render() {
     return (
-      <div className='container-fluid'>
+      <div>
         <HomeNav />
-        {this.props.children}
+          {this.props.children}
         <MyFooter />
       </div>
     );
