@@ -9,7 +9,8 @@ import {
   Col
 } from 'react-bootstrap';
 
-import FontAwesome from 'react-fontawesome'
+import FontAwesome from 'react-fontawesome';
+import { LinkContainer } from 'react-router-bootstrap';
 
 class Login extends Component {
   render() {
@@ -19,19 +20,20 @@ class Login extends Component {
           <Row>
             <h4>LOGIN</h4>
             <br />
-            <Col md={4} mdOffset={4} sm={6} smOffset={3}  >
+            <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={8} xsOffset={2} >
               <Button bsSize='large' className='btn-social btn-facebook' block><FontAwesome name='facebook' /> Login with Facebook </Button>
+              <br/>
               <Button bsSize='large' className='btn-social btn-google' block><FontAwesome name='google' /> Login with Google </Button>
               <hr />
               <h4>OR...</h4>
               <hr />
-              <p>Signup with a Social Account</p>
-              <Button bsSize='large' className='btn-social btn-facebook' block><FontAwesome name='facebook' /> Signup with Facebook </Button>
-              <Button bsSize='large' className='btn-social btn-google' block><FontAwesome name='google' /> Signup with Google </Button>
+              <br/>
+              <LinkContainer to='/signup' ><Button><FontAwesome name='user-plus' size='2x' /> SIGNUP WITH SOCIAL ACCOUNT</Button></LinkContainer>
             </Col>
           </Row>
           <br/>
           <FontAwesome name='bitcoin' size='3x' />
+          <br/>
         </Panel>
       </div>
     );
