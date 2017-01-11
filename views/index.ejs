@@ -14,12 +14,16 @@
     
     <!--Main React Root-->
     <div id="root">
-      <div class="loadingPage">
-        <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
-        <span class="sr-only">Loading...</span>
-        <h2>Loading eChange Website</h2>
-        <h4>Please Wait...</h4>
-      </div>
+      <% if (reactMarkup) { %>
+        <%- reactMarkup %>
+      <% } else { %>
+        <div class="loadingPage">
+          <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
+          <h2>Loading eChange Website</h2>
+          <h4>Please Wait...</h4>
+        </div>
+      <script src="/build/bundle.js"></script>    
+      <% } %>
     </div>
 
     <script src="/build/bundle.js"></script>
