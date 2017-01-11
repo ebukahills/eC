@@ -14,15 +14,14 @@
     
     <!--Main React Root-->
     <div id="root">
-      <% if (reactMarkup) { %>
-        <%- reactMarkup %>
+      <% var reactMarkup; if (reactMarkup !== 'null') { %>
+        <div><%= reactMarkup %></div>
       <% } else { %>
         <div class="loadingPage">
           <i class="fa fa-cog fa-spin fa-5x fa-fw"></i>
           <h2>Loading eChange Website</h2>
           <h4>Please Wait...</h4>
         </div>
-      <script src="/build/bundle.js"></script>    
       <% } %>
     </div>
 
