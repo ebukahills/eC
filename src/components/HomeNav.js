@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LinkContainer } from 'react-router-bootstrap';
+import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 
 import {
   Navbar,
@@ -20,7 +20,7 @@ class HomeNav extends Component {
         <Navbar.Collapse>
 
           <Nav>
-            <LinkContainer to='/'><NavItem><Button bsStyle="link">HOME</Button></NavItem></LinkContainer>
+            <IndexLinkContainer to='/'><NavItem><Button bsStyle="link">HOME</Button></NavItem></IndexLinkContainer>
             <LinkContainer to='/about'><NavItem><Button bsStyle="link">ABOUT</Button></NavItem></LinkContainer>            
             <LinkContainer to='/rates'><NavItem><Button bsStyle="link">RATES</Button></NavItem></LinkContainer>
           </Nav>

@@ -16,10 +16,13 @@ class MainContainer extends Component {
           <Row>
             <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={12} ><h4>eChange Logo</h4></Col>
           </Row>
+          <hr/>
         </div>
         <MainNavPanel />
         <div>
-          {this.props.children}
+          <Col md={9} sm={9} xs={12} >
+            {this.props.children}            
+          </Col>
         </div>
         <MyFooter />
       </div>

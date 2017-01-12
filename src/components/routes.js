@@ -5,7 +5,7 @@ import Main from './Main';
 import Homepage from './Homepage';
 import Login from './Login';
 import Signup from './Signup';
-import UserMain from './UserMain';
+import MainDashboard from './MainDashboard';
 import AppContainer from './AppContainer';
 import MainContainer from './MainContainer'
 import AccountDetails from './AccountDetails';
@@ -20,8 +20,8 @@ const routes = (
       <Route path='signup' component={Signup} />
     </Route>
     <Route path='/main' component={MainContainer} >
-      <IndexRoute component={UserMain} />
-      <Route path='accounts' component={AccountDetails} />
+      <IndexRoute component={MainDashboard} />
+      <Route path='account' component={AccountDetails} />
       <Route path='referrals' component={ReferralsPage} />
       <Route path='transactions' component={TransactionsPage} />
     </Route>
