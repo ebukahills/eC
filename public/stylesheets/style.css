@@ -6,7 +6,7 @@ html {
 }
 body {
   font-family: 'Roboto Mono', monospace;
-  background-color: linen;
+  background-image: url("/images/stripedbg.gif")
 }
 
 div {

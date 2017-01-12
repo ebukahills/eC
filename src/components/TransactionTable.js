@@ -9,7 +9,7 @@ class TransactionTable extends Component {
   render () {
     return (
       <div>
-        <Table striped condensed hover responsive >
+        <Table striped condensed hover responsive bordered >
           <thead>
             <tr>
               <th>TYPE</th>

@@ -11,6 +11,7 @@ import MainContainer from './MainContainer'
 import AccountDetails from './AccountDetails';
 import ReferralsPage from './ReferralsPage';
 import TransactionsPage from './TransactionsPage';
+import MainSupport from './MainSupport';
 
 const routes = (
   <Route path='/' component={AppContainer} >
@@ -24,6 +25,7 @@ const routes = (
       <Route path='account' component={AccountDetails} />
       <Route path='referrals' component={ReferralsPage} />
       <Route path='transactions' component={TransactionsPage} />
+      <Route path='support' component={MainSupport} />      
     </Route>
     <Redirect from='*' to='/' />
   </Route>

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import {
   Row,
-  Col
+  Col,
+  Panel
 } from 'react-bootstrap';
 
 import MainNavPanel from './MainNavPanel';
@@ -11,17 +12,18 @@ import MyFooter from './MyFooter';
 class MainContainer extends Component {
   render () {
     return (
-      <div>
+      <div className='isCenter' >
         <div>
           <Row>
-            <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={12} ><h4>eChange Logo</h4></Col>
+            <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={12} ><h4><Panel>eChange Logo</Panel></h4></Col>
           </Row>
-          <hr/>
         </div>
         <MainNavPanel />
         <div>
           <Col md={9} sm={9} xs={12} >
-            {this.props.children}            
+            <Panel>
+              {this.props.children}            
+            </Panel>
           </Col>
         </div>
         <MyFooter />
