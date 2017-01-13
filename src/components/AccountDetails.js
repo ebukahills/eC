@@ -6,7 +6,9 @@ import {
   Panel,
   Form,
   FormGroup,
-  FormControl
+  FormControl,
+  Label,
+  Table
 } from 'react-bootstrap';
 
 class AccountDetails extends Component {
@@ -18,7 +20,7 @@ class AccountDetails extends Component {
         <Alert bsStyle='danger' >
           <h4>Your Account is Unverified</h4>
           <p>You may not be allowed to complete large volume Transactions.</p>
-          <p>Upload a copy of your Government-issued ID card to verify your account and become eligible for large volume transactions ( > NGN 50,000)</p>
+          <p>Upload a copy of your Government-issued ID card to verify your account and become eligible for large volume transactions <span>( > NGN 50,000)</span></p>
           <br/>
           <Button>Verify Account</Button>
         </Alert>
@@ -56,6 +58,30 @@ class AccountDetails extends Component {
             </FormGroup>
             <Button type='submit' bsStyle='primary' >Set Bitcon Address</Button>
           </Form>
+        </Panel>
+
+        <Panel>
+          <h4>Saved Accounts</h4>
+          <br/>
+
+          <Table striped condensed hover responsive bordered >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>BANK</th>
+                <th>ACC NAME</th>
+                <th>ACC NUMBER</th>
+                <th>Action</th>              
+              </tr>
+            </thead>
+            <tbody>
+              <tr>        
+                <td>No Records Found</td>
+              </tr>              
+            </tbody>            
+          </Table>
+
+          <h5>Default Bitcoin Address: <a href="http://blockchain.info"><Label bsStyle='primary' >1cDr56W3vet40enNgeQerNT535ubVqT</Label></a></h5>
         </Panel>
 
       </div>

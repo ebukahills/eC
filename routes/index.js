@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+
+// React Server Rendering Imports
 var React = require('react');
 var ReactRouter = require('react-router');
 var ReactDOMServer = require('react-dom/server');
@@ -17,6 +19,7 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/*', (req, res) => {
+  // Match Routes and render React on the server
   match({routes: routes, location: req.url}, (err, redirect, props) => {
     var reactMarkup = ReactDOMServer.renderToString(<RouterContext {...props} />)
     res.render('index', { reactMarkup });

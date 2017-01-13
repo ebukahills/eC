@@ -17,13 +17,15 @@ class TransactionTable extends Component {
               <th>AMOUNT</th>
               <th>STATUS</th>              
             </tr>
+          </thead>
+          <tbody>
             <tr>
               <td>BUY</td>
               <td>29/01/16, 15:33</td>
               <td>BTC 0.13 - NGN 51245 - $102.3</td>
               <td><Label bsStyle='success' >COMPLETED</Label></td>              
             </tr>
-          </thead>
+          </tbody>            
         </Table>
       </div>
     )
