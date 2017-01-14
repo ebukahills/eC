@@ -5,7 +5,11 @@ import React, { Component } from 'react';
 class TransactionsPage extends Component {
   render () {
     return (
-      <div>User TransactionsPage here</div>
+      <div>
+        <h4>Transactions</h4>
+        <hr/>
+        <p>No Transactions Found</p>
+      </div>
     );
   }
 }

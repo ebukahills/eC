@@ -46,7 +46,7 @@ class MainNavPanel extends Component {
                   <Navbar.Toggle />
 
                   <Navbar.Collapse>
-
+                      <Navbar.Text>User Name</Navbar.Text>                    
                     <Nav>
                       <IndexLinkContainer to='/main'><NavItem><Button bsStyle="link">Dashboard</Button></NavItem></IndexLinkContainer>
                       <LinkContainer to='/main/account'><NavItem><Button bsStyle="link">Account</Button></NavItem></LinkContainer>
