@@ -30,9 +30,8 @@ class MainNavPanel extends Component {
                   <LinkContainer to='/main/support' ><Button>Support</Button></LinkContainer>
                 </ButtonGroup>
                 <br />
-                <Thumbnail src='http://graph.facebook.com/1184298875/picture?type=large' >
-                  Signed in as: <LinkContainer to='/main/account' ><Button bsStyle='link' >User Name</Button></LinkContainer>
-                </Thumbnail>
+                Signed in as: <LinkContainer to='/main/account' ><Button bsStyle='link' >User Name</Button></LinkContainer><br />
+                <Button bsStyle='danger' >LOGOUT</Button>
               </Panel>
             </AutoAffix>
           </Col>
@@ -40,25 +39,27 @@ class MainNavPanel extends Component {
         {/*Small Screen Size Navbar */}
         <div>
           <Col mdHidden lgHidden smHidden xs={12} >
-            <AutoAffix>
-              <div>
-                <Navbar default collapseOnSelect >
+            <div>
+              <Navbar default collapseOnSelect >
+                <Navbar.Header>
+                  <Navbar.Brand>eChange</Navbar.Brand>
                   <Navbar.Toggle />
+                </Navbar.Header>
 
-                  <Navbar.Collapse>
-                      <Navbar.Text>User Name</Navbar.Text>                    
-                    <Nav>
-                      <IndexLinkContainer to='/main'><NavItem><Button bsStyle="link">Dashboard</Button></NavItem></IndexLinkContainer>
-                      <LinkContainer to='/main/account'><NavItem><Button bsStyle="link">Account</Button></NavItem></LinkContainer>
-                      <LinkContainer to='/main/transactions'><NavItem><Button bsStyle="link">Transactions</Button></NavItem></LinkContainer>
-                      <LinkContainer to='/main/referrals'><NavItem><Button bsStyle="link">Referrals</Button></NavItem></LinkContainer>
-                      <LinkContainer to='/main/support'><NavItem><Button bsStyle="link">Support</Button></NavItem></LinkContainer>
-                    </Nav>
+                <Navbar.Collapse>
+                  <Navbar.Text>User Name</Navbar.Text>
+                  <Nav>
+                    <IndexLinkContainer to='/main'><NavItem><Button bsStyle="link">Dashboard</Button></NavItem></IndexLinkContainer>
+                    <LinkContainer to='/main/account'><NavItem><Button bsStyle="link">Account</Button></NavItem></LinkContainer>
+                    <LinkContainer to='/main/transactions'><NavItem><Button bsStyle="link">Transactions</Button></NavItem></LinkContainer>
+                    <LinkContainer to='/main/referrals'><NavItem><Button bsStyle="link">Referrals</Button></NavItem></LinkContainer>
+                    <LinkContainer to='/main/support'><NavItem><Button bsStyle="link">Support</Button></NavItem></LinkContainer>
+                    <NavItem><Button bsStyle='danger' >LOGOUT</Button></NavItem>
+                  </Nav>
 
-                  </Navbar.Collapse>
-                </Navbar>
-              </div>
-            </AutoAffix>
+                </Navbar.Collapse>
+              </Navbar>
+            </div>
           </Col>
         </div>
       </div>

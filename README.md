@@ -1,5 +1,5 @@
 # eC
-Nigerian Bitcoin Exchange built with React &amp; Node
+Nigerian Bitcoin Exchange built with React, React-Router, Redux, Firebase &amp; Node
 
 ## To run locally
 Clone -- `git clone https://github.com/flyg101/eC` >

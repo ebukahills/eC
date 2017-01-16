@@ -15,7 +15,7 @@ class MainContainer extends Component {
       <div className='isCenter' >
         <div>
           <Row>
-            <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={12} ><h4><Panel>eChange Logo</Panel></h4></Col>
+            <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={12} xsHidden ><h4><Panel>eChange Logo</Panel></h4></Col>
           </Row>
         </div>
         <MainNavPanel />
