@@ -14,5 +14,9 @@ try {
   console.log('Cannot connect to Database: Please check error message', e)
 }
 
-export var dbRef = firebase.database().ref();
+export var db = firebase.database().ref();
+export var googleProvider = new firebase.auth.GoogleAuthProvider();
+export var facebookProvider = new firebase.auth.FacebookAuthProvider();
+
+
 export default firebase;
