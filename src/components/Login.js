@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as actions from '../firebase/actions';
 
 import {
   Panel,
@@ -13,6 +14,12 @@ import FontAwesome from 'react-fontawesome';
 import { LinkContainer } from 'react-router-bootstrap';
 
 class Login extends Component {
+  handleGoogleLogin () {
+    actions.startGoogleLogin();
+  }
+  handleFacebookLogin () {
+    actions.startFacebookLogin();
+  }
   render() {
     return (
       <div className='isCenter'>
@@ -21,9 +28,9 @@ class Login extends Component {
             <h4>LOGIN</h4>
             <br />
             <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={8} xsOffset={2} >
-              <Button bsSize='large' className='btn-social btn-facebook' block><FontAwesome name='facebook' /> Login with Facebook </Button>
+              <Button onClick={this.handleFacebookLogin} bsSize='large' className='btn-social btn-facebook' block><FontAwesome name='facebook' /> Login with Facebook </Button>
               <br/>
-              <Button bsSize='large' className='btn-social btn-google' block><FontAwesome name='google' /> Login with Google </Button>
+              <Button onClick={this.handleGoogleLogin} bsSize='large' className='btn-social btn-google' block><FontAwesome name='google' /> Login with Google </Button>
               <hr />
               <h4>OR...</h4>
               <hr />

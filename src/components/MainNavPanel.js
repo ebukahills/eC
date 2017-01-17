@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { logoutUser } from '../firebase/actions';
 
 import {
   Panel,
@@ -15,6 +16,9 @@ import { AutoAffix } from 'react-overlays';
 import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 
 class MainNavPanel extends Component {
+  startLogout () {
+    logoutUser();
+  }
   render() {
     return (
       <div>
@@ -31,7 +35,7 @@ class MainNavPanel extends Component {
                 </ButtonGroup>
                 <br />
                 Signed in as: <LinkContainer to='/main/account' ><Button bsStyle='link' >User Name</Button></LinkContainer><br />
-                <Button bsStyle='danger' >LOGOUT</Button>
+                <Button onClick={this.startLogout} bsStyle='danger' >LOGOUT</Button>
               </Panel>
             </AutoAffix>
           </Col>
@@ -54,7 +58,7 @@ class MainNavPanel extends Component {
                     <LinkContainer to='/main/transactions'><NavItem><Button bsStyle="link">Transactions</Button></NavItem></LinkContainer>
                     <LinkContainer to='/main/referrals'><NavItem><Button bsStyle="link">Referrals</Button></NavItem></LinkContainer>
                     <LinkContainer to='/main/support'><NavItem><Button bsStyle="link">Support</Button></NavItem></LinkContainer>
-                    <NavItem><Button bsStyle='danger' >LOGOUT</Button></NavItem>
+                    <NavItem><Button onClick={this.startLogout} bsStyle='danger' >LOGOUT</Button></NavItem>
                   </Nav>
 
                 </Navbar.Collapse>
