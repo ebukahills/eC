@@ -2,11 +2,11 @@ import firebase from 'firebase';
 
 try {
   var config = {
-    apiKey: process.env.API_KEY,
-    authDomain: process.env.AUTH_DOMAIN,
-    databaseURL: process.env.DATABASE_URL,
-    storageBucket: process.env.STORAGE_BUCKET,
-    messagingSenderId: process.env.SENDER_ID
+    apiKey: 'AIzaSyBjUmhvq4VvE9HKa35jqTjVCMWGuT6vDF0',
+    authDomain: 'ecplayground-265b2.firebaseapp.com',
+    databaseURL: 'https://ecplayground-265b2.firebaseio.com',
+    storageBucket: 'ecplayground-265b2.appspot.com',
+    messagingSenderId: '724482291609'
   };
   firebase.initializeApp(config);
 
@@ -15,6 +15,8 @@ try {
 }
 
 export var db = firebase.database().ref();
+export var usersRef = db.child('users');
+
 export var googleProvider = new firebase.auth.GoogleAuthProvider();
 export var facebookProvider = new firebase.auth.FacebookAuthProvider();
 

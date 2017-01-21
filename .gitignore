@@ -3,3 +3,5 @@ babel_cache/
 build/
 playground/
 config/
+*.log
+firebase/
