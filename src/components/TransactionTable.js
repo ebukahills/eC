@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import {
   Table,
@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 
 class TransactionTable extends Component {
-  render () {
+  render() {
     return (
       <div>
         <Table striped condensed hover responsive bordered >
@@ -15,17 +15,20 @@ class TransactionTable extends Component {
               <th>TYPE</th>
               <th>TIME</th>
               <th>AMOUNT</th>
-              <th>STATUS</th>              
+              <th>STATUS</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>BUY</td>
-              <td>29/01/16, 15:33</td>
-              <td>BTC 0.13 - NGN 51245 - $102.3</td>
-              <td><Label bsStyle='success' >COMPLETED</Label></td>              
-            </tr>
-          </tbody>            
+            {!this.props.transactions ? (
+              <tr>
+                <td>No Transactions Found</td>
+              </tr>
+            ) : (
+                <tr>
+                  <td>Table Map Logic here</td>
+                </tr>
+              )}
+          </tbody>
         </Table>
       </div>
     )

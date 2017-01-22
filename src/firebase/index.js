@@ -9,6 +9,7 @@ try {
     messagingSenderId: '724482291609'
   };
   firebase.initializeApp(config);
+  console.log('Initialized Database');
 
 } catch(e) {
   console.log('Cannot connect to Database: Please check error message', e)

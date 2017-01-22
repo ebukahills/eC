@@ -10,18 +10,22 @@ import MainPriceTicker from './MainPriceTicker';
 import TransactionTable from './TransactionTable';
 
 class MainDashboard extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = { echange: JSON.parse(localStorage.getItem('echange'))}
-    console.log(this.state);
   }
 
   render () {
     return (
       <div>
         <br/>
-        <h4>Welcome, {this.state.echange.name.split(' ')[0]}</h4><Link to='/main/account' ><Label bsStyle='warning' >UNVERIFIED</Label></Link>
+        <h4>Welcome, {this.state.echange.name.split(' ')[0]}</h4>
+        {this.state.echange.verified ? (
+        <Link to='/main/account' ><Label bsStyle='success' >VERIFIED</Label></Link>          
+        ) : (
+        <Link to='/main/account' ><Label bsStyle='danger' >UNVERIFIED</Label></Link>          
+        )}
         <br/>
         <MainPriceTicker />
         <br/>

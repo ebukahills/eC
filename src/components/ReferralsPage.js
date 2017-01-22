@@ -19,7 +19,7 @@ class ReferralsPage extends Component {
 
         <Panel>
           <h5>Withdraw Referral Commission</h5>
-          <h6>Total Commission: NGN 450</h6>
+          <h6>Total Commission: NGN 0</h6>
           <Button bsStyle='success' >Withdraw</Button>
         </Panel>
         <p>Bloggers, Writers, Internet Marketers etc can make money by referring users to our site. You can find promotion links and banners below to add to your Website or Blog and increase the reach of your Referral Campaign</p>

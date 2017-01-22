@@ -1,6 +1,6 @@
 import firebase, { db, usersRef, facebookProvider, googleProvider } from './index';
 
-export var userID, userName, profilePic;
+var userID, userName, profilePic;
 
 
 // Login user with Facebook Popup
@@ -44,8 +44,9 @@ Main Database Read and Write Logic
 export var saveUserData = () => {
   var user = firebase.auth().currentUser;
   if (user !== null) {
+    console.log(user.uid);
     userID = user.uid;
-    usersRef.child(userID).once('value').then((snapshot) => {
+    usersRef.child(userID).on('value', (snapshot) => {
       var userData = snapshot.val();
       console.log(userData);
       localStorage.setItem('echange', JSON.stringify(userData));
@@ -60,6 +61,36 @@ export var saveUserData = () => {
 export var deleteUserData = () => {
   localStorage.removeItem('echange');
 }
+
+// Add New Bank Account Details to db => Function
+export var addAccount = (bank, name, num) => {
+  var accountDetails = {
+    bankName: bank,
+    accName: name,
+    accNum: num
+  }
+  var userBankDetails = firebase.auth().currentUser.uid + '/bankDetails';
+  console.log(userBankDetails)
+  usersRef.child(userBankDetails).push(accountDetails).then((data) => {
+    alert('Bank Details Successfully Set!')
+  }, (error) => {
+    alert('There was an error. Please Check your Network Connectivity')
+  })
+}
+
+// Set Default BTC Address to db => Function
+export var setBitcoin = (address) => {
+  usersRef.child(firebase.auth().currentUser.uid).update({
+    defaultBTC: address
+  }).then((data) => {
+    alert('Bitcoin Address Successfully Set!')
+  }, (error) => {
+    alert('There was an error. Please check your Network Connectivity')
+  })
+}
+
+
+
 
 // Handle Authentication State Changes
 
@@ -82,15 +113,17 @@ firebase.auth().onAuthStateChanged((user) => {
           verified: false,
           transactions: {},
           defaultBTC: {},
-          bankDetails: {}
+          bankDetails: {},
+          referrals: {},
+          refCommission: {},
+          referredBy: localStorage.getItem('eCRef') || {}
         });
       }
     });
 
+    // Run Save User Data function to save user data to LocalStorage
     saveUserData();
-    
-    //Load user data for existing user
-    
+
   } else {
     // User just signed out. Run signout logic here
     deleteUserData();
