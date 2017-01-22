@@ -59,7 +59,7 @@ class HomePriceTicker extends Component {
                       </FormGroup>
                       <Button type="submit">
                         BUY
-                        </Button>
+                      </Button>
                     </Form>
                   </Tab.Pane>
                 </Tab.Content>

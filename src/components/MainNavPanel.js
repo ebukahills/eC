@@ -59,7 +59,7 @@ class MainNavPanel extends Component {
                 </Navbar.Header>
 
                 <Navbar.Collapse>
-                  <Navbar.Text>{this.state.echange.name}</Navbar.Text>
+                  <Navbar.Text>Signed In as: {this.state.echange.name}</Navbar.Text>
                   <Nav>
                     <IndexLinkContainer to='/main'><NavItem><Button bsStyle="link">Dashboard</Button></NavItem></IndexLinkContainer>
                     <LinkContainer to='/main/account'><NavItem><Button bsStyle="link">Account</Button></NavItem></LinkContainer>

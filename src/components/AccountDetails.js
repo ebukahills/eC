@@ -13,7 +13,7 @@ import {
 
 import {
   addAccount,
-  setBitcoin
+  setBitcoin,
 } from '../firebase/actions';
 
 class AccountDetails extends Component {
@@ -37,7 +37,7 @@ class AccountDetails extends Component {
     this.handleBtcChange = this.handleBtcChange.bind(this)
     this.handleAddAccount = this.handleAddAccount.bind(this)
     this.handleBtcSet = this.handleBtcSet.bind(this)
-    
+
   }
 
   handleBankNameChange(e) {
@@ -56,7 +56,7 @@ class AccountDetails extends Component {
     this.setState({ btcAdd: e.target.value })
   }
 
-  handleAddAccount (e) {
+  handleAddAccount(e) {
     e.preventDefault();
     addAccount(this.state.bankName, this.state.accName, this.state.accNum);
   }
@@ -69,7 +69,8 @@ class AccountDetails extends Component {
   render() {
     return (
       <div>
-        <h4>Account Details</h4><hr />
+        <h4>Account Details</h4>
+        <hr />
 
         {!this.state.echange.verified ? (
           <Alert bsStyle='danger' >
@@ -121,6 +122,10 @@ class AccountDetails extends Component {
           <h4>Saved Accounts</h4>
           <br />
 
+            {/* Table to Display saved User Bank Account Details.
+              Iteration is done with Object.Keys, accessing state data in resBank
+            */}
+
           <Table striped condensed hover responsive bordered >
             <thead>
               <tr>
@@ -128,7 +133,6 @@ class AccountDetails extends Component {
                 <th>BANK</th>
                 <th>ACC NAME</th>
                 <th>ACC NUMBER</th>
-                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -136,16 +140,24 @@ class AccountDetails extends Component {
                 <tr>
                   <td>No Records Found</td>
                 </tr>
-              ) : (
+              ) : Object.keys(this.state.echange.bankDetails).map((key, i) => {
+                var resBank = this.state.echange.bankDetails[key];
+                return (
                   <tr>
-                    <td>Table Map Logic here</td>
+                    <td>{i+1}</td>
+                    <td>{resBank.bankName}</td>
+                    <td>{resBank.accName}</td>
+                    <td>{resBank.accNum}</td>
                   </tr>
-                )}
+                )
+              })
+
+              }
             </tbody>
           </Table>
 
           <h5>Default Bitcoin Address: {this.state.echange.defaultBTC ? (
-            <a href="http://blockchain.info"><Label bsStyle='primary' >{this.state.echange.defaultBTC}</Label></a>
+            <a href="http://blockchain.info/wallet"><Label bsStyle='primary' >{this.state.echange.defaultBTC}</Label></a>
           ) : (
               'None Set'
             )} </h5>

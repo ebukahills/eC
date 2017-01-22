@@ -1,4 +1,5 @@
 import firebase, { db, usersRef, facebookProvider, googleProvider } from './index';
+// import axios from 'axios';
 
 var userID, userName, profilePic;
 
@@ -48,13 +49,12 @@ export var saveUserData = () => {
     userID = user.uid;
     usersRef.child(userID).on('value', (snapshot) => {
       var userData = snapshot.val();
-      console.log(userData);
       localStorage.setItem('echange', JSON.stringify(userData));
-  });
+    });
   } else {
     return
   }
-  
+
 }
 
 // Delete User Data from LocalStorage => Function
@@ -89,6 +89,15 @@ export var setBitcoin = (address) => {
   })
 }
 
+// Get Live Rates value and save to LocalStorage eCRates
+export var getRates = () => {
+  db.child('rates').on('value', (rate) => {
+    localStorage.setItem('eCRates', JSON.stringify(rate.val()));
+    console.log(rate.val())
+  })
+
+}
+
 
 
 
@@ -104,7 +113,7 @@ firebase.auth().onAuthStateChanged((user) => {
     // Check if user already exists
 
     usersRef.child(userID).once('value').then((snapshot) => {
-      if(!snapshot.exists()) {
+      if (!snapshot.exists()) {
         // Run signup Logic for New Users 
         usersRef.child(userID).set({
           name: userName,
