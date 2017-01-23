@@ -24,7 +24,7 @@ class Login extends Component {
     return (
       <div className='isCenter'>
         <Panel>
-          <Row>
+          <Row className='clearfix'>
             <h4>LOGIN</h4>
             <br />
             <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={8} xsOffset={2} >

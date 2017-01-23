@@ -76,7 +76,7 @@ class AccountDetails extends Component {
           <Alert bsStyle='danger' >
             <h4>Your Account is Unverified</h4>
             <p>You may not be allowed to complete large volume Transactions.</p>
-            <p>Upload a copy of your Government-issued ID card to verify your account and become eligible for large volume transactions <span>( > NGN 100,000)</span></p>
+            <p>Upload a copy of your Government-issued ID card to verify your account and become eligible for large volume transactions <span>( > 100,000 NGN)</span></p>
             <br />
             <Button>Verify Account</Button>
           </Alert>
@@ -157,7 +157,7 @@ class AccountDetails extends Component {
           </Table>
 
           <h5>Default Bitcoin Address: {this.state.echange.defaultBTC ? (
-            <a href="http://blockchain.info/wallet"><Label bsStyle='primary' >{this.state.echange.defaultBTC}</Label></a>
+            <p><a href="http://blockchain.info/wallet"><Label bsStyle='primary' >{this.state.echange.defaultBTC}</Label></a></p>
           ) : (
               'None Set'
             )} </h5>

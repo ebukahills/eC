@@ -1,7 +1,7 @@
 import firebase, { db, usersRef, facebookProvider, googleProvider } from './index';
 // import axios from 'axios';
 
-var userID, userName, profilePic;
+var userID, userName, profilePic, userEmail;
 
 
 // Login user with Facebook Popup
@@ -109,16 +109,18 @@ firebase.auth().onAuthStateChanged((user) => {
     userID = user.uid;
     userName = user.displayName;
     profilePic = user.photoURL;
+    userEmail = user.email
 
     // Check if user already exists
 
     usersRef.child(userID).once('value').then((snapshot) => {
       if (!snapshot.exists()) {
-        // Run signup Logic for New Users 
+        // If not, Run signup Logic for New Users 
         usersRef.child(userID).set({
           name: userName,
           userID: userID,
           profilePic: profilePic,
+          email: userEmail,
           verified: false,
           transactions: {},
           defaultBTC: {},

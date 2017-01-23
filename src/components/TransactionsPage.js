@@ -35,8 +35,9 @@ class TransactionsPage extends Component {
                     <p><u>eChange Transaction</u></p>
                     <br />
                     <p>Transactiion ID: {key}</p>
+                    <p>Transaction Type: {tData.type}</p>
                     <p>Transaction Time: {tData.time}</p>
-                    <p>Transaction Rate: {'1BTC = NGN' + (tData.ngnAmount / tData.btcAmount).toString() + ' = $' + (tData.dolAmount / tData.btcAmount).toString()}</p>
+                    <p>Transaction Rate: {'1BTC = ' + (tData.ngnAmount / tData.btcAmount).toString() + ' NGN = $' + (tData.dolAmount / tData.btcAmount).toString()}</p>
                     <p>Bitcoin Value: {tData.btcAmount.toString()}BTC</p>
                     <p>NGN Value: {tData.ngnAmount}</p>
                     <p>Transaction Status: <Label bsStyle={tData.statusLabel} >{tData.status}</Label></p>

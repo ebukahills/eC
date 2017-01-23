@@ -14,8 +14,8 @@ class MainContainer extends Component {
     return (
       <div className='isCenter' >
         <div>
-          <Row>
-            <Col md={4} mdOffset={4} sm={6} smOffset={3} xs={12} xsHidden ><h4><Panel>eChange Logo</Panel></h4></Col>
+          <Row className='clearfix'>
+            <Col md={4} mdOffset={4} sm={6} smOffset={4} xsHidden ><h4><Panel>eChange Logo</Panel></h4></Col>
           </Row>
         </div>
         <MainNavPanel />
@@ -26,7 +26,7 @@ class MainContainer extends Component {
             </Panel>
           </Col>
         </div>
-        <MyFooter />
+        {/*<MyFooter />*/}
       </div>
     );
   }

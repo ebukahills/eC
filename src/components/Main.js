@@ -9,7 +9,7 @@ class Main extends Component {
       <div>
         <HomeNav />
           {this.props.children}
-        <MyFooter />
+        {/*<MyFooter />*/}
       </div>
     );
   }
