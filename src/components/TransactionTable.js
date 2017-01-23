@@ -11,6 +11,7 @@ class TransactionTable extends Component {
   render() {
     return (
       <div>
+        <h5>Transactions History</h5>
         <Table striped condensed hover responsive bordered >
           <thead>
             <tr>
@@ -32,7 +33,7 @@ class TransactionTable extends Component {
                   <tr>
                     <td>{transData.type}</td>
                     <td>{transData.time}</td>
-                    <td>{transData.btcAmount}BTC - NGN {transData.ngnAmount} - ${transData.dolAmount}</td>
+                    <td>{transData.btcAmount}BTC - NGN {transData.ngnAmount}- ${transData.dolAmount}</td>
                     <td><Label bsStyle={transData.statusLabel} >{transData.status}</Label></td>
                   </tr>
                 </LinkContainer>
