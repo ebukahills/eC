@@ -12,7 +12,7 @@ import FontAwesome from 'react-fontawesome';
 class HomeNav extends Component {
   render () {
     return (
-      <Navbar default collapseOnSelect >
+      <Navbar default collapseOnSelect className='isCenter' >
         <Navbar.Header>
           <Navbar.Brand>eChange</Navbar.Brand>
           <Navbar.Toggle />
@@ -21,15 +21,15 @@ class HomeNav extends Component {
 
           <Nav>
             <IndexLinkContainer to='/'><NavItem><Button bsStyle="link">HOME</Button></NavItem></IndexLinkContainer>
-            <LinkContainer to='/about'><NavItem><Button bsStyle="link">ABOUT</Button></NavItem></LinkContainer>            
+            <LinkContainer to='/about'><NavItem><Button bsStyle="link">ABOUT</Button></NavItem></LinkContainer>
             <LinkContainer to='/rates'><NavItem><Button bsStyle="link">RATES</Button></NavItem></LinkContainer>
           </Nav>
 
           <Nav pullRight>
             <LinkContainer to='/login'><NavItem><Button bsStyle='default'> <FontAwesome name='sign-in'/> LOGIN</Button></NavItem></LinkContainer>
-            <LinkContainer to='/signup'><NavItem><Button bsStyle='default'><FontAwesome name='user-plus'/> SIGNUP!</Button></NavItem></LinkContainer>            
+            <LinkContainer to='/signup'><NavItem><Button bsStyle='default'><FontAwesome name='user-plus'/> SIGNUP!</Button></NavItem></LinkContainer>
           </Nav>
-          
+
         </Navbar.Collapse>
       </Navbar>
     );
