@@ -159,7 +159,7 @@ class AccountDetails extends Component {
           <h5>Default Bitcoin Address: {this.state.echange.defaultBTC ? (
             <p><a href="http://blockchain.info/wallet"><Label bsStyle='primary' >{this.state.echange.defaultBTC}</Label></a></p>
           ) : (
-              'None Set'
+              <p>None Set</p>
             )} </h5>
         </Panel>
 

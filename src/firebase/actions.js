@@ -1,5 +1,5 @@
-import firebase, { db, usersRef, facebookProvider, googleProvider } from './index';
-// import axios from 'axios';
+import firebase, { db, storeRef, usersRef, facebookProvider, googleProvider } from './index';
+// import request from 'superagent';
 
 var userID, userName, profilePic, userEmail;
 
@@ -93,9 +93,7 @@ export var setBitcoin = (address) => {
 export var getRates = () => {
   db.child('rates').on('value', (rate) => {
     localStorage.setItem('eCRates', JSON.stringify(rate.val()));
-    console.log(rate.val())
   })
-
 }
 
 
@@ -115,7 +113,7 @@ firebase.auth().onAuthStateChanged((user) => {
 
     usersRef.child(userID).once('value').then((snapshot) => {
       if (!snapshot.exists()) {
-        // If not, Run signup Logic for New Users 
+        // If not, Run signup Logic for New Users
         usersRef.child(userID).set({
           name: userName,
           userID: userID,

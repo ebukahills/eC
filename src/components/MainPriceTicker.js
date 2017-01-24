@@ -11,10 +11,17 @@ import {
   FieldGroup,
   Checkbox,
   Accordion,
-  Panel
+  Panel,
+  ProgressBar
 } from 'react-bootstrap';
 
 import FontAwesome from 'react-fontawesome';
+import Dropzone from 'react-dropzone';
+
+import firebase, {
+  storeRef
+} from '../firebase/index';
+
 
 // Create Terms of Service TOS Component
 const TOS = React.createClass({
@@ -34,7 +41,7 @@ class MainPriceChecker extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { tPage: 'mainPage' }
+    this.state = { tPage: 'mainPage', progress: null, uploadStatus: null }
 
     //Bind Component functions to constructor
     this.loadMainPage = this.loadMainPage.bind(this)
@@ -55,7 +62,7 @@ class MainPriceChecker extends Component {
   }
 
   loadMainPage() {
-    this.setState({ tPage: 'mainPage' })
+    this.setState({ tPage: 'mainPage', uploadStatus: null })
   }
   loadBuyPage1() {
     this.setState({ tPage: 'buyPage1' })
@@ -198,6 +205,18 @@ class MainPriceChecker extends Component {
 
     var sellPage3;
 
+    // Conditionally render complete upload message
+    var barStatus;
+    if (this.state.uploadStatus === 1) {
+      barStatus = (<p className='redC'>Upload Failed. Please Try Again :(</p>)
+    } else if (this.state.uploadStatus === 2) {
+      barStatus = (<p className='greenC'>File Uploaded Successfully! :)</p>)
+    } else if (this.state.uploadStatus === 3) {
+      barStatus = (<p className='typewriter'>UPLOADING.........</p>)
+    } else {
+      barStatus = (<i></i>)
+    }
+
     var buyComplete = (
       <div>
         <h5>Transaction 98UGDG009</h5>
@@ -205,57 +224,73 @@ class MainPriceChecker extends Component {
         <p>You have marked this Transaction as Paid</p>
         <p>Kinldy upload a proof of payment below (teller, receipt, app screenshot, etc)</p>
         <p>This ensures your transaction will be processed without delay <FontAwesome name='clock-o' size='2x' /></p><hr />
-        <label className="btn btn-primary">
-          <input id="my-file-selector" type="file" style={{display:'none'}} />
-          <FontAwesome name='upload' /> UPLOAD PROOF
-        </label>
-          <Pager>
-            <Pager.Item onSelect={this.loadMainPage} >&larr; Back to Dashboard</Pager.Item>
-          </Pager>
+        <p>Or send it as an email attachment to <a href="mailto:paid@echange.ng?Subject=eChange%20Payment%20Proof" target='_blank'>paid@eChange.NG</a></p>
+        <div>
+          <Dropzone style={{ borderStyle: 'dashed', borderRadius: '5px', borderWidth: '3px', borderColor: 'skyblue' }}
+            onDrop={(file) => {
+              var uploadTask = storeRef.child('proof/' + firebase.auth().currentUser.uid + file[0].name).put(file[0]);
+              uploadTask.on('state_changed', (snapshot) => {
+                this.setState({ uploadStatus: 3 })
+              }, (err) => {
+                this.setState({ uploadStatus: 1 })
+              }, () => {
+                this.setState({ uploadStatus: 2 })
+              })
+            } }>
+            <hr />
+            <p>Drag & Drop image files here or Click to select file</p>
+            <p>You can upload multiple files</p>
+            <hr />
+            {barStatus}
+          </Dropzone>
+        </div>
+        <hr />
+        <Pager>
+          <Pager.Item onSelect={this.loadMainPage} >&larr; Back to Dashboard</Pager.Item>
+        </Pager>
       </div>
-        );
+    );
     var buyCancel;
     var sellComplete;
     var sellCancel;
 
-
     // Condtionally render Price Ticker Page
-    // by setting the value of tickerPage to page variable based on state
+    // by setting the value of tickerPage to page string based on state
     if (this.state.tPage === 'mainPage') {
-          tickerPage = mainPage;
-        } else if (this.state.tPage === 'buyPage1') {
-          tickerPage = buyPage1;
-        } else if (this.state.tPage === 'buyPage2') {
-          tickerPage = buyPage2;
-        } else if (this.state.tPage === 'buyPage3') {
-          tickerPage = buyPage3;
-        } else if (this.state.tPage === 'sellPage1') {
-          tickerPage = sellPage1;
-        } else if (this.state.tPage === 'sellPage2') {
-          tickerPage = sellPage2
-        }else if (this.state.tPage === 'sellPage3') {
-          tickerPage = sellPage3;
-        } else if (this.state.tPage === 'buyComplete') {
-          tickerPage = buyComplete;
-        } else if (this.state.tPage === 'buyCancel') {
-          tickerPage = buyCancel;
-        } else if (this.state.tPage === 'sellComplete') {
-          tickerPage = sellComplete;
-        } else if (this.state.tPage === 'sellCancel') {
-          tickerPage = sellCancel;
-        }else {
-          tickerPage = mainPage;
-        }
+      tickerPage = mainPage;
+    } else if (this.state.tPage === 'buyPage1') {
+      tickerPage = buyPage1;
+    } else if (this.state.tPage === 'buyPage2') {
+      tickerPage = buyPage2;
+    } else if (this.state.tPage === 'buyPage3') {
+      tickerPage = buyPage3;
+    } else if (this.state.tPage === 'sellPage1') {
+      tickerPage = sellPage1;
+    } else if (this.state.tPage === 'sellPage2') {
+      tickerPage = sellPage2
+    } else if (this.state.tPage === 'sellPage3') {
+      tickerPage = sellPage3;
+    } else if (this.state.tPage === 'buyComplete') {
+      tickerPage = buyComplete;
+    } else if (this.state.tPage === 'buyCancel') {
+      tickerPage = buyCancel;
+    } else if (this.state.tPage === 'sellComplete') {
+      tickerPage = sellComplete;
+    } else if (this.state.tPage === 'sellCancel') {
+      tickerPage = sellCancel;
+    } else {
+      tickerPage = mainPage;
+    }
 
     return (
       <div>
-          <Well>
-            <Row className='clearfix'>
-              {tickerPage}
-            </Row>
-          </Well>
-        </div>
-        )
+        <Well>
+          <Row className='clearfix'>
+            {tickerPage}
+          </Row>
+        </Well>
+      </div>
+    )
   }
 }
 

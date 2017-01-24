@@ -16,6 +16,7 @@ try {
 }
 
 export var db = firebase.database().ref();
+export var storeRef = firebase.storage().ref();
 export var usersRef = db.child('users');
 
 export var googleProvider = new firebase.auth.GoogleAuthProvider();
