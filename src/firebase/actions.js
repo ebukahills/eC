@@ -50,6 +50,7 @@ export var saveUserData = () => {
     usersRef.child(userID).on('value', (snapshot) => {
       var userData = snapshot.val();
       localStorage.setItem('echange', JSON.stringify(userData));
+      console.log(userData);
     });
   } else {
     return

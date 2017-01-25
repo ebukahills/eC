@@ -23,9 +23,12 @@ import Dropzone from 'react-dropzone';
 
 import walletValidator from 'wallet-address-validator';
 import numeral from 'numeral';
+import moment from 'moment';
 
 import firebase, {
-  storeRef
+  storeRef,
+  usersRef,
+  transactionsRef
 } from '../firebase/index';
 
 
@@ -60,12 +63,15 @@ class MainPriceChecker extends Component {
       clickVerifier: false,
       buyButton: true,
       sellButton: true,
+      btcAddress: '',
       buyBtcVal: 1,
       buyNgnVal: numeral((liveRate.dol * liveRate.buy)).format('0,0.[00]'),
       buyDolVal: numeral(liveRate.dol).format('0,0.[00]'),
       sellBtcVal: 1,
       sellNgnVal: numeral((liveRate.dol * liveRate.sell)).format('0,0.[00]'),
-      sellDolVal: numeral(liveRate.dol).format('0,0.[00]')
+      sellDolVal: numeral(liveRate.dol).format('0,0.[00]'),
+      sellConfirm: false,
+      transactionID: ''
     }
 
     //Bind Component functions to constructor
@@ -95,6 +101,8 @@ class MainPriceChecker extends Component {
     this.sellNgnUpd = this.sellNgnUpd.bind(this)
     this.sellDolUpd = this.sellDolUpd.bind(this)
 
+    this.sellConfirm = this.sellConfirm.bind(this)
+
   }
 
   loadMainPage() {
@@ -104,6 +112,19 @@ class MainPriceChecker extends Component {
     this.setState({ tPage: 'buyPage1' })
   }
   loadBuyPage2() {
+    var tid = (Date.now().toString() + this.state.echange.name[0]);
+    this.setState({transactionID: tid})
+    // Set localStorage lastTransaction to amount Details
+    localStorage.setItem('lastTransaction', JSON.stringify({
+      transactionID: tid,
+      type: 'BUY',
+      dolAmount: this.state.buyDolVal,
+      btcAmount: this.state.buyBtcVal,
+      ngnAmount: this.state.buyNgnVal,
+      status: 'PENDING',
+      user: this.state.echange.name,
+      statusLabel: 'warning'
+    }))
     // Load buyPage2 and reset previous validator states
     this.setState({
       tPage: 'buyPage2',
@@ -114,10 +135,16 @@ class MainPriceChecker extends Component {
     })
   }
   loadBuyPage3() {
-    this.setState({
-      tPage: 'buyPage3',
-    })
     // This function also adds the transaction values to database
+    var lastT = JSON.parse(localStorage.getItem('lastTransaction'));
+    lastT.btcAddress = this.state.btcAddress;
+    lastT.time = moment(Date.now()).format('HH:mm D/MM/YY');
+    localStorage.setItem('lastTransaction', JSON.stringify(lastT))
+    transactionsRef.child('buy/' + lastT.transactionID).set(lastT, (success) => {
+      usersRef.child(firebase.auth().currentUser.uid + '/transactions/' + lastT.transactionID).set(lastT);
+      // On success, Set state to next page
+      this.setState({ tPage: 'buyPage3' });
+    });
 
   }
   loadSellPage1() {
@@ -128,16 +155,33 @@ class MainPriceChecker extends Component {
   }
   loadSellPage3() {
     this.setState({ tPage: 'sellPage3' })
-    // This function also adds the transaction values to database
   }
   loadBuyComplete() {
-    // TODO - Set transaction on db to PROCESSING
+    var tref = this.state.transactionID;
+    // Set transaction on db to PROCESSING
+    transactionsRef.child('buy/' + tref).update({
+      status: 'PROCESSING',
+      statusLabel: 'info'
+    });
+    usersRef.child(firebase.auth().currentUser.uid + '/transactions/' + tref).update({
+      status: 'PROCESSING',
+      statusLabel: 'info'
+    })
 
     this.setState({ tPage: 'buyComplete' })
 
   }
   loadBuyCancel() {
-    // TODO - Set transaction on db to CANCELLED
+    var tref = this.state.transactionID;
+    transactionsRef.child('buy/' + tref).update({
+      status: 'CANCELLED',
+      statusLabel: 'danger'
+    });
+    usersRef.child(firebase.auth().currentUser.uid + '/transactions/' + tref).update({
+      status: 'CANCELLED',
+      statusLabel: 'danger'
+    })
+
 
     this.setState({ tPage: 'buyCancel' })
   }
@@ -156,6 +200,7 @@ class MainPriceChecker extends Component {
     this.state.clickVerifier ? this.setState({ validator: true }) : this.setState({ validator: false })
   }
   validate(e) {
+    this.setState({ btcAddress: e.target.value });
     var address = walletValidator.validate(e.target.value);
     if (!address) {
       this.setState({ errorMessage: true })
@@ -246,6 +291,9 @@ class MainPriceChecker extends Component {
       sellNgnVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.sell)).format('0,0.[00]')
     })
   }
+  sellConfirm() {
+    this.setState({ sellConfirm: !this.state.sellConfirm })
+  }
 
   render() {
 
@@ -332,13 +380,14 @@ class MainPriceChecker extends Component {
       <div>
         <h4>Make Payment</h4><hr />
         <Panel header={(<h5>Transaction Details</h5>)} >
+          <p>Buying &#579; {this.state.buyBtcVal}@ &#8358; {this.state.buyNgnVal} </p>
           <p>Kindly complete Payment within 3 hours</p>
           <hr />
           <p><b>Bank:</b>  Diamond Bank</p><hr />
           <p><b>Account Name:</b>  Gbaski Sales Ltd.</p><hr />
           <p><b>Account Number:</b>  0123456789</p><hr />
-          <p><b>Amount:</b>  45000 NGN</p><hr />
-          <p><b>Transaction Reference:</b>  458T2P3W89</p><hr />
+          <p><b>Amount:</b> &#8358; {this.state.buyNgnVal} </p><hr />
+          <p><b>Transaction Reference:</b>  { this.state.transactionID }</p><hr />
         </Panel>
         <Accordion>
           <Panel header={(<h5>Complete/Cancel Transaction</h5>)}>
@@ -404,22 +453,22 @@ class MainPriceChecker extends Component {
                   Object.keys(this.state.echange.bankDetails).map((key, i) => {
                     var resBank = this.state.echange.bankDetails[key];
                     return (
-                      <option value={(i + 1).toString() + resBank.bankName}>{resBank.bankName} | {resBank.accNum} | {resBank.accName}</option>
+                      <option value={(i + 1).toString() + resBank.bankName}>{resBank.bankName}| {resBank.accNum}| {resBank.accName}</option>
                     )
                   })
                 }
               </FormControl>
             </FormGroup>
           </form>
-          <hr/>
+          <hr />
           <TOS />
           <form>
-            <Checkbox >
+            <Checkbox onChange={this.sellConfirm} >
               I Accept the Terms of Service
-          </Checkbox>
+            </Checkbox>
           </form>
           <br />
-          <Button bsStyle='primary' bsSize='large' onClick={this.loadSellPage3} >SUBMIT TRANSACTION</Button>
+          <Button disabled={!this.state.sellConfirm} bsStyle='primary' bsSize='large' onClick={this.loadSellPage3} >SUBMIT TRANSACTION</Button>
           <Pager>
             <Pager.Item onSelect={this.loadSellPage1} >&larr; BACK</Pager.Item>
           </Pager>
@@ -442,8 +491,8 @@ class MainPriceChecker extends Component {
 
     var buyComplete = (
       <div>
-        <h5>Transaction 98UGDG009</h5>
-        <p>Receiving Address: 16dAwJttDm5oiSAZUYMqgWWGHso1jjSg9C</p><hr />
+        <h5>Transaction {this.state.transactionID}</h5>
+        <p>Receiving Address: {this.state.btcAddress}</p><hr />
         <p>You have marked this Transaction as Paid</p>
         <p>Kinldy upload a proof of payment below (teller, receipt, app screenshot, etc)</p>
         <p>This ensures your transaction will be processed without delay <FontAwesome name='clock-o' size='2x' /></p><hr />
@@ -473,7 +522,16 @@ class MainPriceChecker extends Component {
         </Pager>
       </div>
     );
-    var buyCancel;
+    var buyCancel = (
+      <div>
+        <h4>Transaction Cancelled</h4><hr />
+        <p>You have cancelled this Transaction</p>
+        <p>Go back to Dashboard to initiate another Transaction</p>
+        <Pager>
+          <Pager.Item onSelect={this.loadMainPage} >&larr; Back to Dashboard</Pager.Item>
+        </Pager>
+      </div>
+    );
     var sellComplete;
     var sellCancel;
 

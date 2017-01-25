@@ -33,7 +33,7 @@ class TransactionTable extends Component {
                   <tr>
                     <td>{transData.type}</td>
                     <td>{transData.time}</td>
-                    <td>{transData.btcAmount}BTC - NGN {transData.ngnAmount}- ${transData.dolAmount}</td>
+                    <td> &#579;{transData.btcAmount} - &#8358;{transData.ngnAmount} - &#36;{transData.dolAmount}</td>
                     <td><Label bsStyle={transData.statusLabel} >{transData.status}</Label></td>
                   </tr>
                 </LinkContainer>

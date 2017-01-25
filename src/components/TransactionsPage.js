@@ -37,9 +37,8 @@ class TransactionsPage extends Component {
                     <p>Transactiion ID: {key}</p>
                     <p>Transaction Type: {tData.type}</p>
                     <p>Transaction Time: {tData.time}</p>
-                    <p>Transaction Rate: {'1BTC = ' + (tData.ngnAmount / tData.btcAmount).toString() + ' NGN = $' + (tData.dolAmount / tData.btcAmount).toString()}</p>
-                    <p>Bitcoin Value: {tData.btcAmount.toString()}BTC</p>
-                    <p>NGN Value: {tData.ngnAmount}</p>
+                    <p>Bitcoin Value: &#579;{tData.btcAmount}</p>
+                    <p>Naira Value: &#8358;{tData.ngnAmount}</p>
                     <p>Transaction Status: <Label bsStyle={tData.statusLabel} >{tData.status}</Label></p>
                     <br />
                     <Link to='/main/support' ><p>Contact Support</p></Link>
