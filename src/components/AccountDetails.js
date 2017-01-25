@@ -16,6 +16,8 @@ import {
   setBitcoin,
 } from '../firebase/actions';
 
+import walletValidator from 'wallet-address-validator';
+
 class AccountDetails extends Component {
 
   constructor(props) {
@@ -25,7 +27,8 @@ class AccountDetails extends Component {
       bankName: '',
       accName: '',
       accNum: '',
-      btcAdd: ''
+      btcAdd: '',
+      bankButton: false
     }
 
     // The React Team Recommends binding component functions to the this keyword
@@ -46,6 +49,12 @@ class AccountDetails extends Component {
 
   handleAccNumChange(e) {
     this.setState({ accNum: e.target.value })
+    // Check validity of bank details form data
+    if (this.state.bankName.length > 3 && this.state.accNum.length > 8 && this.state.accName.length > 5) {
+      this.setState({ bankButton: true })
+    } else {
+      this.setState({ bankButton: false })
+    }
   }
 
   handleAccNameChange(e) {
@@ -55,6 +64,8 @@ class AccountDetails extends Component {
   handleBtcChange(e) {
     this.setState({ btcAdd: e.target.value })
   }
+
+
 
   handleAddAccount(e) {
     e.preventDefault();
@@ -102,7 +113,8 @@ class AccountDetails extends Component {
               <b>Account Number</b>
               <FormControl type='number' placeholder='NUBAN Account Number' onChange={this.handleAccNumChange} />
             </FormGroup>
-            <Button type='submit' bsStyle='primary' onClick={this.handleAddAccount} >Submit Bank Account</Button>
+            {this.state.bankName ? (!this.state.bankButton ? (<p className='redC'>Invalid Account Details</p>) : (<i></i>)) : (<i></i>) }
+            <Button type='submit' disabled={!this.state.bankButton} bsStyle='primary' onClick={this.handleAddAccount} >Submit Bank Account</Button>
           </Form>
         </Panel>
 
@@ -112,9 +124,10 @@ class AccountDetails extends Component {
           <Form>
             <FormGroup>
               <b>Bitcoin Address</b>
-              <FormControl type='text' placeholder='Valid Bitcoin Wallet Address' onChange={this.handleBtcChange} />
+              <FormControl type='text' placeholder="eg: 16dAwJttDm5oiSAZUYMqgWWGHso1jjSg9C" onChange={this.handleBtcChange} />
+              {this.state.btcAdd.length > 0 ? (!walletValidator.validate(this.state.btcAdd) ? (<p className='redC'>Invalid Bitcoin Address</p>) : (<i></i>)) : (<i></i>)}
             </FormGroup>
-            <Button type='submit' bsStyle='primary' onClick={this.handleBtcSet} >Set Bitcon Address</Button>
+            <Button type='submit' disabled={!walletValidator.validate(this.state.btcAdd)} bsStyle='primary' onClick={this.handleBtcSet} >Set Bitcon Address</Button>
           </Form>
         </Panel>
 
@@ -122,7 +135,7 @@ class AccountDetails extends Component {
           <h4>Saved Accounts</h4>
           <br />
 
-            {/* Table to Display saved User Bank Account Details.
+          {/* Table to Display saved User Bank Account Details.
               Iteration is done with Object.Keys, accessing state data in resBank
             */}
 
@@ -144,7 +157,7 @@ class AccountDetails extends Component {
                 var resBank = this.state.echange.bankDetails[key];
                 return (
                   <tr>
-                    <td>{i+1}</td>
+                    <td>{i + 1}</td>
                     <td>{resBank.bankName}</td>
                     <td>{resBank.accName}</td>
                     <td>{resBank.accNum}</td>

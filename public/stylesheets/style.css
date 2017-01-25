@@ -56,6 +56,10 @@ a {
   text-align: center;
 }
 
+.moneyIcon {
+  font-size: 20px;
+}
+
 /*Typewriter CSS animation*/
 .typewriter {
   overflow: hidden; /* Ensures the content is not revealed until the animation */

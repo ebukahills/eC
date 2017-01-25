@@ -26,10 +26,10 @@ class TransactionTable extends Component {
               <tr>
                 <td>No Transactions Found</td>
               </tr>
-            ) : Object.keys(this.props.transactions).map((key) => {
+            ) : Object.keys(this.props.transactions).map((key, i) => {
               var transData = this.props.transactions[key];
               return (
-                <LinkContainer to='/main/transactions' >
+                <LinkContainer to='/main/transactions' key={(i + 1).toString()}>
                   <tr>
                     <td>{transData.type}</td>
                     <td>{transData.time}</td>

@@ -6,17 +6,23 @@ import {
   Button,
   Row,
   Pager,
+  Form,
   FormGroup,
   FormControl,
-  FieldGroup,
+  InputGroup,
   Checkbox,
   Accordion,
   Panel,
-  ProgressBar
+  ProgressBar,
+  Link,
+  ControlLabel
 } from 'react-bootstrap';
 
 import FontAwesome from 'react-fontawesome';
 import Dropzone from 'react-dropzone';
+
+import walletValidator from 'wallet-address-validator';
+import numeral from 'numeral';
 
 import firebase, {
   storeRef
@@ -41,7 +47,26 @@ class MainPriceChecker extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { tPage: 'mainPage', progress: null, uploadStatus: null }
+    var liveRate = JSON.parse(localStorage.getItem('eCRates'))
+    this.state = {
+      echange: JSON.parse(localStorage.getItem('echange')),
+      rates: liveRate,
+      tPage: 'mainPage',
+      progress: null,
+      uploadStatus: null,
+      validator: false,
+      validatorCheck: false,
+      errorMessage: false,
+      clickVerifier: false,
+      buyButton: true,
+      sellButton: true,
+      buyBtcVal: 1,
+      buyNgnVal: numeral((liveRate.dol * liveRate.buy)).format('0,0.[00]'),
+      buyDolVal: numeral(liveRate.dol).format('0,0.[00]'),
+      sellBtcVal: 1,
+      sellNgnVal: numeral((liveRate.dol * liveRate.sell)).format('0,0.[00]'),
+      sellDolVal: numeral(liveRate.dol).format('0,0.[00]')
+    }
 
     //Bind Component functions to constructor
     this.loadMainPage = this.loadMainPage.bind(this)
@@ -59,6 +84,17 @@ class MainPriceChecker extends Component {
     this.loadSellComplete = this.loadSellComplete.bind(this)
     this.loadSellCancel = this.loadSellCancel.bind(this)
 
+    this.checkBox = this.checkBox.bind(this)
+    this.validate = this.validate.bind(this)
+
+    this.btcUpd = this.btcUpd.bind(this)
+    this.ngnUpd = this.ngnUpd.bind(this)
+    this.dolUpd = this.dolUpd.bind(this)
+
+    this.sellBtcUpd = this.sellBtcUpd.bind(this)
+    this.sellNgnUpd = this.sellNgnUpd.bind(this)
+    this.sellDolUpd = this.sellDolUpd.bind(this)
+
   }
 
   loadMainPage() {
@@ -68,11 +104,21 @@ class MainPriceChecker extends Component {
     this.setState({ tPage: 'buyPage1' })
   }
   loadBuyPage2() {
-    this.setState({ tPage: 'buyPage2' })
+    // Load buyPage2 and reset previous validator states
+    this.setState({
+      tPage: 'buyPage2',
+      validator: false,
+      validatorCheck: false,
+      errorMessage: false,
+      clickVerifier: false
+    })
   }
   loadBuyPage3() {
-    this.setState({ tPage: 'buyPage3' })
+    this.setState({
+      tPage: 'buyPage3',
+    })
     // This function also adds the transaction values to database
+
   }
   loadSellPage1() {
     this.setState({ tPage: 'sellPage1' })
@@ -105,6 +151,101 @@ class MainPriceChecker extends Component {
 
     this.setState({ tPage: 'sellCancel' })
   }
+  checkBox() {
+    this.setState({ validatorCheck: !this.state.validatorCheck })
+    this.state.clickVerifier ? this.setState({ validator: true }) : this.setState({ validator: false })
+  }
+  validate(e) {
+    var address = walletValidator.validate(e.target.value);
+    if (!address) {
+      this.setState({ errorMessage: true })
+    } else {
+      this.setState({ errorMessage: false })
+      this.setState({ clickVerifier: true })
+    }
+    if (address && this.state.validatorCheck) {
+      this.setState({ validator: true })
+      this.setState({ errorMessage: false })
+    } else {
+      this.setState({ validator: false })
+    }
+  }
+
+  // Buy Price Ticker functions
+  btcUpd(e) {
+    if (!e.target.value || parseFloat(e.target.value) <= 0) {
+      this.setState({ buyButton: false })
+    } else {
+      this.setState({ buyButton: true })
+    }
+    this.setState({
+      buyBtcVal: e.target.value,
+      buyNgnVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.dol) * parseFloat(this.state.rates.buy)).format('0,0.[00]'),
+      buyDolVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.dol)).format('0,0.[00]')
+    })
+  }
+  ngnUpd(e) {
+    if (!e.target.value || parseFloat(e.target.value) <= 0) {
+      this.setState({ buyButton: false })
+    } else {
+      this.setState({ buyButton: true })
+    }
+    this.setState({
+      buyNgnVal: e.target.value,//no parsing here to allow .0 characters
+      buyBtcVal: numeral(parseFloat(e.target.value) / (parseFloat(this.state.rates.buy) * (parseFloat(this.state.rates.dol)))).format('0.[00000000]'),
+      buyDolVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.buy)).format('0,0.[00]')
+    })
+  }
+  dolUpd(e) {
+    if (!e.target.value || parseFloat(e.target.value) <= 0) {
+      this.setState({ buyButton: false })
+    } else {
+      this.setState({ buyButton: true })
+    }
+    this.setState({
+      buyDolVal: e.target.value,
+      buyBtcVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.dol)).format('0.[00000000]'),
+      buyNgnVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.buy)).format('0,0.[00]')
+    })
+  }
+
+  // Sell Price Ticker functions
+  sellBtcUpd(e) {
+    if (!e.target.value || parseFloat(e.target.value) <= 0) {
+      this.setState({ sellButton: false })
+    } else {
+      this.setState({ sellButton: true })
+    }
+    this.setState({
+      sellBtcVal: e.target.value,
+      sellNgnVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.dol) * parseFloat(this.state.rates.sell)).format('0,0.[00]'),
+      sellDolVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.dol)).format('0,0.[00]')
+    })
+  }
+  sellNgnUpd(e) {
+    if (!e.target.value || parseFloat(e.target.value) <= 0) {
+      this.setState({ sellButton: false })
+    } else {
+      this.setState({ sellButton: true })
+    }
+    this.setState({
+      sellNgnVal: e.target.value,//no parsing here to allow .0 characters
+      sellBtcVal: numeral(parseFloat(e.target.value) / (parseFloat(this.state.rates.sell) * (parseFloat(this.state.rates.dol)))).format('0.[00000000]'),
+      sellDolVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.sell)).format('0,0.[00]')
+    })
+  }
+  sellDolUpd(e) {
+    if (!e.target.value || parseFloat(e.target.value) <= 0) {
+      this.setState({ sellButton: false })
+    } else {
+      this.setState({ sellButton: true })
+    }
+    this.setState({
+      sellDolVal: e.target.value,
+      sellBtcVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.dol)).format('0.[00000000]'),
+      sellNgnVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.sell)).format('0,0.[00]')
+    })
+  }
 
   render() {
 
@@ -127,14 +268,33 @@ class MainPriceChecker extends Component {
 
     var buyPage1 = (
       <div>
-        <h6>BUY BITCOIN</h6>
-        <p>Price Ticker</p>
-        <h3>BuyPriceTicker</h3>
-        <br />
+        <h5>BUY BITCOIN</h5>
+        <hr />
+        <p>PRICE TICKER</p>
+        <div>
+          <Form inline>
+            <FormGroup bsSize='large' >
+              <InputGroup>
+                <InputGroup.Addon><b className='moneyIcon'>&#579;</b></InputGroup.Addon>
+                <FormControl type='text' value={this.state.buyBtcVal} onChange={this.btcUpd} />
+              </InputGroup>
+              <InputGroup>
+                <InputGroup.Addon><b className='moneyIcon'>&#8358;</b></InputGroup.Addon>
+                <FormControl type='text' value={this.state.buyNgnVal} onChange={this.ngnUpd} />
+              </InputGroup>
+              <InputGroup>
+                <InputGroup.Addon><b className='moneyIcon'>&#36;</b></InputGroup.Addon>
+                <FormControl type='text' value={this.state.buyDolVal} onChange={this.dolUpd} />
+              </InputGroup>
+            </FormGroup>
+            <hr />
+            <Button bsStyle='primary' disabled={!this.state.buyButton} bsSize='large' onClick={this.loadBuyPage2}>
+              BUY
+            </Button>
+          </Form>
+        </div>
         <Pager>
           <Pager.Item onSelect={this.loadMainPage} >&larr; BACK</Pager.Item>
-          {'   '}
-          <Pager.Item onSelect={this.loadBuyPage2} >NEXT &rarr;</Pager.Item>
         </Pager>
       </div>
     );
@@ -144,18 +304,24 @@ class MainPriceChecker extends Component {
         <h4>Confirmation</h4><hr />
         <form>
           <FormGroup bsSize="large">
+            <p>Enter Receiving Bitcoin Wallet Address</p>
+            <br />
             <b>Bitcoin Address</b>
-            <FormControl type="text" placeholder="eg: 16dAwJttDm5oiSAZUYMqgWWGHso1jjSg9C" />
+            <FormControl type="text" placeholder="eg: 16dAwJttDm5oiSAZUYMqgWWGHso1jjSg9C" onChange={this.validate} />
+            {this.state.errorMessage ? (
+              <p className='redC' >Invalid Wallet Address</p>
+            ) : (<i></i>)}
           </FormGroup>
         </form>
 
         <TOS />
         <form>
-          <Checkbox>
+          <Checkbox checked={this.state.validatorCheck} onChange={this.checkBox} >
             I Accept the Terms of Service
           </Checkbox>
         </form>
-        <Button bsStyle='primary' bsSize='large' onClick={this.loadBuyPage3} >SUBMIT TRANSACTION</Button>
+        <br />
+        <Button bsStyle='primary' disabled={!this.state.validator} bsSize='large' onClick={this.loadBuyPage3} >SUBMIT TRANSACTION</Button>
         <Pager>
           <Pager.Item onSelect={this.loadBuyPage1} >&larr; BACK</Pager.Item>
         </Pager>
@@ -189,19 +355,76 @@ class MainPriceChecker extends Component {
 
     var sellPage1 = (
       <div>
-        <h6>SELL BITCOIN</h6>
-        <p>Price Ticker</p>
-        <h3>SellPriceTicker</h3>
-        <br />
+        <h5>SELL BITCOIN</h5>
+        <hr />
+        <p>PRICE TICKER</p>
+        <div>
+          <Form inline>
+            <FormGroup bsSize='large' >
+              <InputGroup>
+                <InputGroup.Addon><b className='moneyIcon'>&#579;</b></InputGroup.Addon>
+                <FormControl type='text' value={this.state.sellBtcVal} onChange={this.sellBtcUpd} />
+              </InputGroup>
+              <InputGroup>
+                <InputGroup.Addon><b className='moneyIcon'>&#8358;</b></InputGroup.Addon>
+                <FormControl type='text' value={this.state.sellNgnVal} onChange={this.sellNgnUpd} />
+              </InputGroup>
+              <InputGroup>
+                <InputGroup.Addon><b className='moneyIcon'>&#36;</b></InputGroup.Addon>
+                <FormControl type='text' value={this.state.sellDolVal} onChange={this.sellDolUpd} />
+              </InputGroup>
+            </FormGroup>
+            <hr />
+            <Button bsStyle='info' disabled={!this.state.sellButton} bsSize='large' onClick={this.loadSellPage2}>
+              SELL
+            </Button>
+          </Form>
+        </div>
         <Pager>
           <Pager.Item onSelect={this.loadMainPage} >&larr; BACK</Pager.Item>
-          {'   '}
-          <Pager.Item onSelect={this.loadSellPage2} >NEXT &rarr;</Pager.Item>
         </Pager>
       </div>
     );
 
-    var sellPage2;
+    var sellPage2 = !this.state.echange.bankDetails ? (
+      <div>
+        <h4>No Bank Accounts Found</h4>
+        <p>Please Go to <Link to='/main/accounts' >Accounts Page</Link> to add a Bank Account</p>
+        <hr />
+        <Link to='/main/accounts' ><Button bsStyle='link' >&larr; Accounts Page</Button></Link>
+      </div>
+    ) : (
+        <div>
+          <h4>Confirmation</h4><hr />
+          <form>
+            <FormGroup>
+              <ControlLabel>Select Receiving Bank Account</ControlLabel>
+              <FormControl componentClass='select' placeholder='Bank Account &darr;' >
+                {
+                  Object.keys(this.state.echange.bankDetails).map((key, i) => {
+                    var resBank = this.state.echange.bankDetails[key];
+                    return (
+                      <option value={(i + 1).toString() + resBank.bankName}>{resBank.bankName} | {resBank.accNum} | {resBank.accName}</option>
+                    )
+                  })
+                }
+              </FormControl>
+            </FormGroup>
+          </form>
+          <hr/>
+          <TOS />
+          <form>
+            <Checkbox >
+              I Accept the Terms of Service
+          </Checkbox>
+          </form>
+          <br />
+          <Button bsStyle='primary' bsSize='large' onClick={this.loadSellPage3} >SUBMIT TRANSACTION</Button>
+          <Pager>
+            <Pager.Item onSelect={this.loadSellPage1} >&larr; BACK</Pager.Item>
+          </Pager>
+        </div>
+      );
 
     var sellPage3;
 

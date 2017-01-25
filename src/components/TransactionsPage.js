@@ -31,7 +31,7 @@ class TransactionsPage extends Component {
                 var tData = this.state.echange.transactions[key];
                 var tHeader = 'Transaction #' + (i + 1).toString() + ' | ' + tData.btcAmount.toString() + 'BTC - ' + tData.time;
                 return (
-                  <Panel header={tHeader} eventKey={(i + 1).toString()} >
+                  <Panel header={tHeader} eventKey={(i + 1).toString()} key={(i + 1).toString()} >
                     <p><u>eChange Transaction</u></p>
                     <br />
                     <p>Transactiion ID: {key}</p>

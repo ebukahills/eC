@@ -57,7 +57,7 @@ class HomePriceTicker extends Component {
                           <FormControl type='number' step='0.10' />
                         </InputGroup>
                       </FormGroup>
-                      <Button type="submit">
+                      <Button bsSize='large'>
                         BUY
                       </Button>
                     </Form>

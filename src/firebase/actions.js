@@ -125,7 +125,7 @@ firebase.auth().onAuthStateChanged((user) => {
           bankDetails: {},
           referrals: {},
           refCommission: {},
-          referredBy: localStorage.getItem('eCRef') || {}
+          referredBy: {}
         });
       }
     });
