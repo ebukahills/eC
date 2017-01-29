@@ -17,11 +17,6 @@ import { LinkContainer, IndexLinkContainer } from 'react-router-bootstrap';
 
 class MainNavPanel extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { echange: JSON.parse(localStorage.getItem('echange')) }
-  }
-
   startLogout() {
     logoutUser();
   }
@@ -42,7 +37,7 @@ class MainNavPanel extends Component {
                   <LinkContainer to='/main/support' ><Button>Support</Button></LinkContainer>
                 </ButtonGroup>
                 <br />
-                Signed in as: <LinkContainer to='/main/account' ><Button bsStyle='link' >{this.state.echange.name}</Button></LinkContainer><br />
+                Signed in as: <LinkContainer to='/main/account' ><Button bsStyle='link' >{this.props.echange.name}</Button></LinkContainer><br />
                 <Button onClick={this.startLogout} bsStyle='danger' >LOGOUT</Button>
               </Panel>
             </AutoAffix>
@@ -59,7 +54,7 @@ class MainNavPanel extends Component {
                 </Navbar.Header>
 
                 <Navbar.Collapse>
-                  <Navbar.Text>Signed In as: {this.state.echange.name}</Navbar.Text>
+                  <Navbar.Text>Signed In as: {this.props.echange.name}</Navbar.Text>
                   <Nav>
                     <IndexLinkContainer to='/main'><NavItem><Button bsStyle="link">Dashboard</Button></NavItem></IndexLinkContainer>
                     <LinkContainer to='/main/account'><NavItem><Button bsStyle="link">Account</Button></NavItem></LinkContainer>

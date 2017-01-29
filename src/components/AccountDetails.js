@@ -32,7 +32,7 @@ class AccountDetails extends Component {
     }
 
     // The React Team Recommends binding component functions to the this keyword
-    // when using ES6 classes
+    // when using ES6 classes as React does not autobind 'this' to non-react functions
     // This makes them available to the component object and not the window object
     this.handleBankNameChange = this.handleBankNameChange.bind(this)
     this.handleAccNumChange = this.handleAccNumChange.bind(this)
@@ -170,7 +170,7 @@ class AccountDetails extends Component {
           </Table>
 
           <h5>Default Bitcoin Address: {this.state.echange.defaultBTC ? (
-            <p><a href="http://blockchain.info/wallet"><Label bsStyle='primary' >{this.state.echange.defaultBTC}</Label></a></p>
+            <p><a href="http://blockchain.info/wallet" target='_blank' ><Label bsStyle='primary' >{this.state.echange.defaultBTC}</Label></a></p>
           ) : (
               <p>None Set</p>
             )} </h5>

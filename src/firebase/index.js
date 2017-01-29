@@ -11,14 +11,14 @@ try {
   firebase.initializeApp(config);
   console.log('Initialized Database');
 
-} catch(e) {
+} catch (e) {
   console.log('Cannot connect to Database: Please check error message', e)
 }
 
 export var db = firebase.database().ref();
-export var storeRef = firebase.storage().ref();
 export var transactionsRef = db.child('transactions')
 export var usersRef = db.child('users');
+export var storeRef = firebase.storage().ref();
 
 export var googleProvider = new firebase.auth.GoogleAuthProvider();
 export var facebookProvider = new firebase.auth.FacebookAuthProvider();

@@ -14,9 +14,13 @@ import {
   Accordion,
   Panel,
   ProgressBar,
-  Link,
   ControlLabel
 } from 'react-bootstrap';
+
+import {
+  Link,
+  browserHistory
+} from 'react-router';
 
 import FontAwesome from 'react-fontawesome';
 import Dropzone from 'react-dropzone';
@@ -64,10 +68,10 @@ class MainPriceChecker extends Component {
       buyButton: true,
       sellButton: true,
       btcAddress: '',
-      buyBtcVal: 1,
+      buyBtcVal: 1.0,
       buyNgnVal: numeral((liveRate.dol * liveRate.buy)).format('0,0.[00]'),
       buyDolVal: numeral(liveRate.dol).format('0,0.[00]'),
-      sellBtcVal: 1,
+      sellBtcVal: 1.0,
       sellNgnVal: numeral((liveRate.dol * liveRate.sell)).format('0,0.[00]'),
       sellDolVal: numeral(liveRate.dol).format('0,0.[00]'),
       sellConfirm: false,
@@ -106,14 +110,15 @@ class MainPriceChecker extends Component {
   }
 
   loadMainPage() {
-    this.setState({ tPage: 'mainPage', uploadStatus: null })
+    this.setState({ uploadStatus: null })
+    browserHistory.push('/main');
   }
   loadBuyPage1() {
     this.setState({ tPage: 'buyPage1' })
   }
   loadBuyPage2() {
     var tid = (Date.now().toString() + this.state.echange.name[0]);
-    this.setState({transactionID: tid})
+    this.setState({ transactionID: tid })
     // Set localStorage lastTransaction to amount Details
     localStorage.setItem('lastTransaction', JSON.stringify({
       transactionID: tid,
@@ -138,7 +143,7 @@ class MainPriceChecker extends Component {
     // This function also adds the transaction values to database
     var lastT = JSON.parse(localStorage.getItem('lastTransaction'));
     lastT.btcAddress = this.state.btcAddress;
-    lastT.time = moment(Date.now()).format('HH:mm D/MM/YY');
+    lastT.time = moment(Date.now()).format('h:mm a D/MM/YY');
     localStorage.setItem('lastTransaction', JSON.stringify(lastT))
     transactionsRef.child('buy/' + lastT.transactionID).set(lastT, (success) => {
       usersRef.child(firebase.auth().currentUser.uid + '/transactions/' + lastT.transactionID).set(lastT);
@@ -237,7 +242,7 @@ class MainPriceChecker extends Component {
     }
     this.setState({
       buyNgnVal: e.target.value,//no parsing here to allow .0 characters
-      buyBtcVal: numeral(parseFloat(e.target.value) / (parseFloat(this.state.rates.buy) * (parseFloat(this.state.rates.dol)))).format('0.[00000000]'),
+      buyBtcVal: numeral(parseFloat(e.target.value) / (parseFloat(this.state.rates.buy) * (parseFloat(this.state.rates.dol)))).format('0.0[0000000]'),
       buyDolVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.buy)).format('0,0.[00]')
     })
   }
@@ -249,7 +254,7 @@ class MainPriceChecker extends Component {
     }
     this.setState({
       buyDolVal: e.target.value,
-      buyBtcVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.dol)).format('0.[00000000]'),
+      buyBtcVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.dol)).format('0.0[0000000]'),
       buyNgnVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.buy)).format('0,0.[00]')
     })
   }
@@ -275,7 +280,7 @@ class MainPriceChecker extends Component {
     }
     this.setState({
       sellNgnVal: e.target.value,//no parsing here to allow .0 characters
-      sellBtcVal: numeral(parseFloat(e.target.value) / (parseFloat(this.state.rates.sell) * (parseFloat(this.state.rates.dol)))).format('0.[00000000]'),
+      sellBtcVal: numeral(parseFloat(e.target.value) / (parseFloat(this.state.rates.sell) * (parseFloat(this.state.rates.dol)))).format('0.0[0000000]'),
       sellDolVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.sell)).format('0,0.[00]')
     })
   }
@@ -287,7 +292,7 @@ class MainPriceChecker extends Component {
     }
     this.setState({
       sellDolVal: e.target.value,
-      sellBtcVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.dol)).format('0.[00000000]'),
+      sellBtcVal: numeral(parseFloat(e.target.value) / parseFloat(this.state.rates.dol)).format('0.0[0000000]'),
       sellNgnVal: numeral(parseFloat(e.target.value) * parseFloat(this.state.rates.sell)).format('0,0.[00]')
     })
   }
@@ -380,14 +385,15 @@ class MainPriceChecker extends Component {
       <div>
         <h4>Make Payment</h4><hr />
         <Panel header={(<h5>Transaction Details</h5>)} >
-          <p>Buying &#579; {this.state.buyBtcVal}@ &#8358; {this.state.buyNgnVal} </p>
+          <p>Buying &#579;{this.state.buyBtcVal}@ &#8358;{this.state.buyNgnVal} </p>
+          <hr />
           <p>Kindly complete Payment within 3 hours</p>
           <hr />
           <p><b>Bank:</b>  Diamond Bank</p><hr />
           <p><b>Account Name:</b>  Gbaski Sales Ltd.</p><hr />
           <p><b>Account Number:</b>  0123456789</p><hr />
           <p><b>Amount:</b> &#8358; {this.state.buyNgnVal} </p><hr />
-          <p><b>Transaction Reference:</b>  { this.state.transactionID }</p><hr />
+          <p><b>Transaction Reference:</b>  {this.state.transactionID}</p><hr />
         </Panel>
         <Accordion>
           <Panel header={(<h5>Complete/Cancel Transaction</h5>)}>
@@ -435,14 +441,18 @@ class MainPriceChecker extends Component {
       </div>
     );
 
-    var sellPage2 = !this.state.echange.bankDetails ? (
-      <div>
-        <h4>No Bank Accounts Found</h4>
-        <p>Please Go to <Link to='/main/accounts' >Accounts Page</Link> to add a Bank Account</p>
-        <hr />
-        <Link to='/main/accounts' ><Button bsStyle='link' >&larr; Accounts Page</Button></Link>
-      </div>
-    ) : (
+    var sellPage2;
+    if (typeof this.state.echange.bankDetails === 'undefined') {
+      sellPage2 = (
+        <div>
+          <h4>No Bank Accounts Found</h4>
+          <p>Please Go to <Link to='/main/account' >Accounts Page</Link> to add a Bank Account</p>
+          <hr />
+          <Link to='/main/account' ><Button bsStyle='default' >&larr; Accounts Page</Button></Link>
+        </div>
+      )
+    } else {
+      sellPage2 = (
         <div>
           <h4>Confirmation</h4><hr />
           <form>
@@ -473,7 +483,8 @@ class MainPriceChecker extends Component {
             <Pager.Item onSelect={this.loadSellPage1} >&larr; BACK</Pager.Item>
           </Pager>
         </div>
-      );
+      )
+    };
 
     var sellPage3;
 
@@ -500,7 +511,7 @@ class MainPriceChecker extends Component {
         <div>
           <Dropzone style={{ borderStyle: 'dashed', borderRadius: '5px', borderWidth: '3px', borderColor: 'skyblue' }}
             onDrop={(file) => {
-              var uploadTask = storeRef.child('proof/' + firebase.auth().currentUser.uid + file[0].name).put(file[0]);
+              var uploadTask = storeRef.child('proof/' + this.state.transactionID.toString() + ' ' + firebase.auth().currentUser.displayName).put(file[0]);
               uploadTask.on('state_changed', (snapshot) => {
                 this.setState({ uploadStatus: 3 })
               }, (err) => {

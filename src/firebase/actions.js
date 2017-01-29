@@ -1,6 +1,8 @@
 import firebase, { db, storeRef, usersRef, facebookProvider, googleProvider } from './index';
 // import request from 'superagent';
 
+import { browserHistory } from 'react-router';
+
 var userID, userName, profilePic, userEmail;
 
 
@@ -33,6 +35,22 @@ export var logoutUser = () => {
   });
 }
 
+// Require Login Middleware
+export var requireLogin = (nextState, replace, next) => {
+  if (!firebase.auth().currentUser) {
+    replace('/');
+  }
+  next();
+}
+
+// Redirect if Logged in Middleware
+export var redirectIfLoggedIn = (nextState, replace, next) => {
+  if (firebase.auth().currentUser) {
+    replace('/main')
+  }
+  next();
+}
+
 
 
 /*
@@ -42,20 +60,17 @@ Main Database Read and Write Logic
 */
 
 // Save User Data to LocalStorage => Function
-export var saveUserData = () => {
-  var user = firebase.auth().currentUser;
-  if (user !== null) {
-    console.log(user.uid);
-    userID = user.uid;
-    usersRef.child(userID).on('value', (snapshot) => {
+export var saveUserData = (uid) => {
+  return new Promise((resolve, reject) => {
+    usersRef.child(uid).on('value', (snapshot) => {
       var userData = snapshot.val();
       localStorage.setItem('echange', JSON.stringify(userData));
       console.log(userData);
+      resolve(userData);
+      reject('Error Saving Data');
     });
-  } else {
-    return
-  }
 
+  })
 }
 
 // Delete User Data from LocalStorage => Function
@@ -92,8 +107,12 @@ export var setBitcoin = (address) => {
 
 // Get Live Rates value and save to LocalStorage eCRates
 export var getRates = () => {
-  db.child('rates').on('value', (rate) => {
-    localStorage.setItem('eCRates', JSON.stringify(rate.val()));
+  return new Promise((resolve, reject) => {
+    db.child('rates').on('value', (rate) => {
+      localStorage.setItem('eCRates', JSON.stringify(rate.val()));
+      resolve('Rates Set');
+      reject('Error Setting Rates');
+    })
   })
 }
 
@@ -127,15 +146,19 @@ firebase.auth().onAuthStateChanged((user) => {
           referrals: {},
           refCommission: {},
           referredBy: {}
+        }).then((data) => {
+          browserHistory.push('/main');
         });
-      }
+      } else {
+        browserHistory.push('/main');
+      };
+
     });
 
-    // Run Save User Data function to save user data to LocalStorage
-    saveUserData();
 
   } else {
     // User just signed out. Run signout logic here
     deleteUserData();
+    browserHistory.push('/');
   }
 });

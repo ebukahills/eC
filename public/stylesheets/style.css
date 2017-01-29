@@ -5,7 +5,7 @@ html {
   min-height: 100%;
 }
 body {
-  font-family: 'Roboto Mono', monospace;
+  font-family: 'Roboto Mono', monospace, Times, sans-serif;
   background-image: url("/images/stripedbg.gif")
 }
 
@@ -75,13 +75,13 @@ a {
 /* The typing effect */
 @keyframes typing {
   from { width: 0 }
-  to { width: 50% }
+  to { width: 33% }
 }
 
 /* The typewriter cursor effect */
 @keyframes blink-caret {
   from, to { border-color: transparent }
-  50% { border-color: green; }
+  50% { border-color: black; }
 }
 
 
